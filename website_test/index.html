@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            var counter = 0;
+            var counterElement = document.getElementById('counter');
+            var cells = document.getElementsByTagName('td');
+            
+            for (var i = 0; i < cells.length; i++) {
+                cells[i].addEventListener('click', function() {
+                    counter++;
+                    counterElement.innerText = counter;
+                });
+            }
+        }); 
+    </script>
+    <title>Table Example</title>
+</head>
+<body>
+    <h1>Set mattonelle 4x4</h1>
+    <table>
+        <tr>
+            <td>Mattonella 1</td>
+            <td>Mattonella 2</td>
+        </tr>
+        <tr>
+            <td>Mattonella 3</td>
+            <td>Mattonella 4</td>
+        </tr>
+    </table>
+    <p>Selected boxes: <span id="counter">0</span></p>
+</body>
+</html>
