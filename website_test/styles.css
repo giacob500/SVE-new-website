@@ -13,3 +13,7 @@ table {
     background-color: lightblue;
   }
   
+  table td.selected {
+    background-color: #3b83ff;
+    color: white;
+}
