@@ -1,7 +1,26 @@
+<?php
+ echo "<body style='background-color:gray'>";
+include ("account.php");
+( $dbh = mysql_connect( $hostname, $username, $password ))
+    or die ( "uable to connect to MYSQL database" );
+mysql_select_db( $project );
+
+
+if (isset($_POST['search'])) {
+    $sql= "SELECT * FROM registration ";
+
+    $search_term = mysql_real_escape_string($_POST['search_box']);
+
+    $sql .= "WHERE first_name= '{$search_term}'";
+
+    $sql .= " OR last_name= '{$search_term}'";
+    $query=mysql_query($sql) or die(mysql_error());
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
     <script>
           window.addEventListener('DOMContentLoaded', (event) => {
         var counter = 0;
