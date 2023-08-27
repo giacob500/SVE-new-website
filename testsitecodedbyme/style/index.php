@@ -13,14 +13,28 @@
     <link rel="stylesheet" href="./bootstrap.min.css">
   </head>
   <body>
-        <h1>Reading data from database</h1>
+        <h1 class=text-center>Insert data to database (POST method)</h1>
+        <div class="card-body">
+        <form action="../includes/submit.php" method="POST">
+            <div class="form-group">
+                <input class="form-control" type="text" name="id" placeholder="Order ID" >
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="number" placeholder="Order Quantity">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="name" placeholder="Order Name">
+            </div>
+            <button class="btn btn-primary" type="submit" name="submit">Submit</button>
+        </from>
+           
+        </div>
         <div class="card-body">
             <table class = "table table-bordered text-center">
                 <tr class = "bg-dark text-white">
                     <td> Order ID </td>
                     <td> Order Counter </td>
                     <td> Order Name </td>
-                    <td> Delete </td>
                 </tr>
                 <tr>
                 <?php
@@ -30,7 +44,6 @@
                     <td><?php echo $row['order_ID'];?></td>
                     <td><?php echo $row['order_counter'];?></td>
                     <td><?php echo $row['order_names'];?></td>
-                    <td><a href="#" class="btn btn-danger">Delete</td>
                 </tr>
                 <?php
                     }
