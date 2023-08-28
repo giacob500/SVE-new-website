@@ -9,5 +9,5 @@ $query = "INSERT INTO wp_orderinfo (order_ID, order_counter, order_names)
         VALUES ('$id', '$number', '$name');";
 mysqli_query($con, $query);
 
-header ("Location: ../style/index.php?submit=success");
+header ("Location: ../style/index.php?submit_insert=success");
 ?>

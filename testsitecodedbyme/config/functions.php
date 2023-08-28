@@ -8,7 +8,7 @@
         $result = mysqli_query($con, $query);
         return $result;
     }
-
+/*
     function insert_data(){
         global $con;
         $query = "INSERT INTO wp_orderinfo (order_ID, order_counter, order_names)
@@ -17,4 +17,5 @@
 
         header ("Location: ../index.php?submit=success");
     }
+    */
 ?>

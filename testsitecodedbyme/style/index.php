@@ -13,9 +13,12 @@
     <link rel="stylesheet" href="./bootstrap.min.css">
   </head>
   <body>
-        <h1 class=text-center>Insert data to database (POST method)</h1>
-        <div class="card-body">
-        <form action="../includes/submit.php" method="POST">
+        <h1 class=text-center>Edit data in the database (POST method)</h1>
+        <div class="container">
+  <div class="row">
+    <div class="col">
+    <h4>Insert order into databse</h4>
+        <form action="../includes/submit_insert.php" method="POST">
             <div class="form-group">
                 <input class="form-control" type="text" name="id" placeholder="Order ID" >
             </div>
@@ -25,11 +28,21 @@
             <div class="form-group">
                 <input class="form-control" type="text" name="name" placeholder="Order Name">
             </div>
-            <button class="btn btn-primary" type="submit" name="submit">Submit</button>
-        </from>
-           
-        </div>
+            <button class="btn btn-primary" type="submit" name="submit_insert">Submit</button>
+        </form>
+    </div>
+    <div class="col">
+    <h4>Remove order from databse</h4>
+        <form action="../includes/submit_delete.php" method="POST">
+            <div class="form-group">
+                <input class="form-control" type="text" name="id" placeholder="Order ID" >
+            </div>
+            <button class="btn btn-danger" type="submit" name="submit_delete">Delete</button>
+        </form>
+    </div>
+  </div>
         <div class="card-body">
+            <h4>Database table</h4>
             <table class = "table table-bordered text-center">
                 <tr class = "bg-dark text-white">
                     <td> Order ID </td>
