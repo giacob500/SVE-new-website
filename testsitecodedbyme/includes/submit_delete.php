@@ -1,10 +1,12 @@
 <?php
 require_once('../config/db.php');
 
-$id = $_POST['id'];
+$id = $_POST['id_to_delete'];
 
-$query = "DELETE FROM `wp_orderinfo` WHERE `wp_orderinfo`.`order_ID` = $id;";
-mysqli_query($con, $query);
+// Check filed is not empty
+if (!empty($id)) {
+    $query = "DELETE FROM `wp_orderinfo` WHERE `wp_orderinfo`.`order_ID` = $id;";
+    mysqli_query($con, $query);
+}
 
-header ("Location: ../style/index.php?submit_delete=success");
-?>
+header("Location: ../style/index.php?submit_delete=success");
