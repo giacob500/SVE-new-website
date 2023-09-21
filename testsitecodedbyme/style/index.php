@@ -49,6 +49,40 @@ function filterTable($query)
                     </div>
                     <button class="btn btn-primary" type="submit" name="submit_insert">Insert</button>
                 </form>
+<?php
+// Check URL for strings establishing if request has failed
+/*
+//(Method 1 - exploit website URL)
+$fullUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+if (strpos($fullUrl, "submit_insert=empty") == true) {
+    echo "<p class='text-danger'>You did not fill in all fileds!<p>";
+    exit();
+} else if (strpos($fullUrl, "submit_insert=error") == true) {
+    echo "<p class='text-danger'>Submit request has not been sent!<p>";
+    exit();
+} else if (strpos($fullUrl, "submit_insert=success") == true) {
+    echo "<p class='text-success'>Data inserted correctly!<p>";
+    exit();
+}*/
+
+// (Method 2)
+if (!isset($_GET['submit_insert'])){
+    // submit_insert has not been received from the server
+}
+else {
+    $signupCheck = $_GET['submit_insert'];
+    if ($signupCheck == "empty"){
+        echo "<p class='text-danger'>You did not fill in all fileds!<p>";
+        exit();
+    } else if ($signupCheck == "error"){
+        echo "<p class='text-danger'>Submit request has not been sent!<p>";
+        exit();
+    } else if ($signupCheck == "success"){
+        echo "<p class='text-danger'>Data inserted correctly!<p>";
+        exit();
+    }
+}
+?>
             </div>
             <div class="col">
                 <h4>Remove order from databse</h4>
