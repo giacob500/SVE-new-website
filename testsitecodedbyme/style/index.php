@@ -39,19 +39,43 @@ function filterTable($query)
                 <h4>Insert order into databse</h4>
                 <form action="../includes/submit_insert.php" method="POST">
                     <div class="form-group">
-                        <input class="form-control" type="text" name="id_to_insert" placeholder="Order ID">
+                        <?php
+                        // The data filled in the "Order ID" field will not be lost when page is refreshed or updated
+                        if (isset($_GET['id_to_insert'])) {
+                            $id_to_insert = $_GET['id_to_insert'];
+                            echo '<input class="form-control" type="text" name="id_to_insert" placeholder="Order ID" value="'.$id_to_insert.'">';
+                        } else {
+                            echo '<input class="form-control" type="text" name="id_to_insert" placeholder="Order ID">';
+                        }
+                        ?>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="number_to_insert" placeholder="Order Quantity">
+                        <?php
+                        // The data filled in the "Order Quantity" field will not be lost when page is refreshed or updated
+                        if (isset($_GET['number_to_insert'])) {
+                            $number_to_insert = $_GET['number_to_insert'];
+                            echo '<input class="form-control" type="text" name="number_to_insert" placeholder="Order Quantity" value="'.$number_to_insert.'">';
+                        } else {
+                            echo '<input class="form-control" type="text" name="number_to_insert" placeholder="Order Quantity">';
+                        }
+                        ?>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="name_to_insert" placeholder="Order Name">
+                        <?php
+                        // The data filled in the "Order Name" field will not be lost when page is refreshed or updated
+                        if (isset($_GET['name_to_insert'])) {
+                            $name_to_insert = $_GET['name_to_insert'];
+                            echo '<input class="form-control" type="text" name="name_to_insert" placeholder="Order Name" value="'.$name_to_insert.'">';
+                        } else {
+                            echo '<input class="form-control" type="text" name="name_to_insert" placeholder="Order Name">';
+                        }
+                        ?>
                     </div>
                     <button class="btn btn-primary" type="submit" name="submit_insert">Insert</button>
                 </form>
-<?php
-// Check URL for strings establishing if request has failed
-/*
+                <?php
+                // Check URL for strings establishing if request has failed
+                /*
 //(Method 1 - exploit website URL)
 $fullUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 if (strpos($fullUrl, "submit_insert=empty") == true) {
@@ -65,24 +89,23 @@ if (strpos($fullUrl, "submit_insert=empty") == true) {
     exit();
 }*/
 
-// (Method 2)
-if (!isset($_GET['submit_insert'])){
-    // submit_insert has not been received from the server
-}
-else {
-    $signupCheck = $_GET['submit_insert'];
-    if ($signupCheck == "empty"){
-        echo "<p class='text-danger'>You did not fill in all fileds!<p>";
-        exit();
-    } else if ($signupCheck == "error"){
-        echo "<p class='text-danger'>Submit request has not been sent!<p>";
-        exit();
-    } else if ($signupCheck == "success"){
-        echo "<p class='text-danger'>Data inserted correctly!<p>";
-        exit();
-    }
-}
-?>
+                // (Method 2)
+                if (!isset($_GET['submit_insert'])) {
+                    // submit_insert has not been received from the server
+                } else {
+                    $signupCheck = $_GET['submit_insert'];
+                    if ($signupCheck == "empty") {
+                        echo "<p class='text-danger'>You did not fill in all fileds!<p>";
+                        // exit(); <- it was inserted in the tutorial but I may not need it
+                    } else if ($signupCheck == "error") {
+                        echo "<p class='text-danger'>Submit request has not been sent!<p>";
+                        // exit();
+                    } else if ($signupCheck == "success") {
+                        echo "<p class='text-danger'>Data inserted correctly!<p>";
+                        // exit();
+                    }
+                }
+                ?>
             </div>
             <div class="col">
                 <h4>Remove order from databse</h4>
