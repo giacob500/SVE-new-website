@@ -17,3 +17,11 @@ table {
     background-color: #3b83ff;
     color: white;
 }
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
