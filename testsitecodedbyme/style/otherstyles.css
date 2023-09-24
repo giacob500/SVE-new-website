@@ -1,3 +1,9 @@
+/* Add space around images */
+.img-fluid {
+  margin-bottom: 10%; /* Adjust the margin as per your preference */
+}
+
+/* Below only code which is not used but could be useful in the future*/
 table {
     border-collapse: collapse;
   }
