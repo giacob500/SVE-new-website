@@ -1,18 +1,44 @@
+<?php
+if (isset($_POST['generate_email'])){
+    header("Location: /summary.php");
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <link rel="stylesheet" type="text/css" href="style/bootstrap.min.css" />
     <link rel="icon" type="image/x-icon" href="/imgs/logo/sve_favicon_smaller.png">
-    <title>Studio Vertu Europe</title>
+    <title>Basket - Studio Vertu Europe</title>
 </head>
 
 <body>
     <div class="text-center">
-        <h1>Welcome to SVE</h1>
+        <h1>Your Basket</h1>
         <h3>version 0.1</h3>
-        <p>This is the first version of the website Giacomo Lorenzi is building for SVE s.r.l. (Studio Vertu Europe).</p>
-        <button type="button" class="btn btn-primary" onclick="document.location='categories.php'">Enter</button>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+                <p>Here are the products you added to your basket:</p>
+                <ul>
+                    <li>SET 1098 (tiles 1, 2, 3) x 4</li>
+                    <li>SET 2889 (tiles 2, 3) x 7</li>
+                    <li>SET 3901 x 3</li>
+                </ul>
+                <form action="mailto:someone@example.com example.com" method="post" enctype="text/plain">
+                    Name:<br>
+                    <input type="text" name="name"><br>
+                    E-mail:<br>
+                    <input type="text" name="mail"><br>
+                    Phone number:<br>
+                    <input type="text" name="mail"><br>
+                    Comment:<br>
+                    <input type="text" name="comment" size="50"><br><br>
+                    <input type="reset" class="btn btn-danger" value="Empty basket">
+                    <input type="submit" class="btn btn-success" name="generate_email" value="Generate email">
+                </form>
+            </div>
+        </div>
     </div>
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <div class="col-md-4 d-flex align-items-center">

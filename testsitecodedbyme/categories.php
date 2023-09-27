@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="style/bootstrap.min.css"/>
+    <link rel="icon" type="image/x-icon" href="/imgs/logo/sve_favicon_smaller.png">
     <title>Categories - Studio Vertu Europe</title>
 </head>
 <body>

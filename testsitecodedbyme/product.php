@@ -3,6 +3,9 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="style/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/style/otherstyles.css"/>
+    <link rel="icon" type="image/x-icon" href="/imgs/logo/sve_favicon_smaller.png">
+    <script src="/scripts/script.js"></script>
     <title>Product details - Studio Vertu Europe</title>
 </head>
 
@@ -13,10 +16,31 @@
         <p>Selected product:</p>
         <p class="text-muted">Here there should be a multiple selection that allows to choose the exact tiles.</p>
         <a href="examples/selectionmenu.html">Check multiple selection example here</a><br>
-        <img src="imgs/marble/cu237-marble-coaster-ancient-greek-women-gynoecium.jpg" class="img-fluid" alt="Set marmette 1">
+        
+        <label for="sizeSelect">Table Size:</label>
+        <select id="sizeSelect">
+            <option value="5">4x4 5cm</option>
+            <option value="10">4x4 10cm</option>
+        </select>
+    
+    <br>
+    <div class="d-flex justify-content-center mt-3">
+    <table class="table-with-bg">
+        <tr>
+            <td>Mattonella 1</td>
+            <td>Mattonella 2</td>
+        </tr>
+        <tr>
+            <td>Mattonella 3</td>
+            <td>Mattonella 4</td>
+        </tr>
+    </table>
+    </div>
+    <p>Selected tiles in total: <span id="counter">0</span></p>
+    <p>Selected tiles names: <span id="selectedList"></span></p>
     </div>
     <div class="d-flex justify-content-center mt-3">
-        <button type="button" class="btn btn-secondary" onclick="document.location='summary.php'">Order</button>
+        <button type="button" class="btn btn-secondary" onclick="document.location='basket.php'">Order</button>
     </div>
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <div class="col-md-4 d-flex align-items-center">

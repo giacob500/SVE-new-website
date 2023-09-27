@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="../style/bootstrap.min.css"/>
+    <link rel="icon" type="image/x-icon" href="/imgs/logo/sve_favicon_smaller.png">
     <title>Wood - Studio Vertu Europe</title>
 </head>
 <body>
@@ -13,7 +14,7 @@
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <div class="col-md-4 d-flex align-items-center">
             <a href="index.php" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-                <img src="imgs/logo/sve.png" class="img-fluid" alt="Studio Vertu logo" width="50">
+                <img src="/imgs/logo/sve.png" class="img-fluid" alt="Studio Vertu logo" width="50">
             </a>
             <div class="ml-3">
                 <p class="mb-3 mb-md-0 text-muted">© 2023 Studio Vertu Europe, s.r.l.</p>
