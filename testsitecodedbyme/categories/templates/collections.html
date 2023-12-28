@@ -1,0 +1,65 @@
+{% extends "jinja/bases/general_base.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />
+{% endblock %}
+{% block title %}Collections{% endblock %}
+{% block header_conent%}
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-centre mt-1 me-md-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black" class="bi bi-house"
+                viewBox="0 0 16 16">
+                <path
+                    d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
+            </svg>
+        </a>
+        <ul class="nav nav-pills align-items-center">
+            <li class="nav-item">
+                <a href="/basket" class="px-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black"
+                        class="bi bi-basket2-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1z" />
+                    </svg>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            </li>
+        </ul>
+
+    </header>
+</div>
+{% endblock %}
+{% block content%}
+<div class="text-center">
+    <h1>{% if chosen_category %}{{ chosen_category }}{% endif %}</h1>
+</div>
+<div class="container">
+    {% if products|length == 0 %}
+    <div class="text-center">
+        <p>No {{ chosen_category }} products available at the moment. More products will arrive soon!</p>
+    </div>
+    {% else %}
+    <div class="text-center">
+        <p>Choose a collection from below:</p>
+    </div>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-6 col-lg-4 mb-3">
+            <form action="/product" method="post">
+                <button type="submit" class="btn btn-link w-100">
+                    <img src="../{{ product.image_url }}" class="img-fluid" alt="{{ product.name }}">
+                    <input type="hidden" name="product_image_url" value="{{ product.image_url }}">
+                    <input type="hidden" name="product_name" value="{{ product.name }}">
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="text-center">
+        <a href="/categories" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "jinja/bases/general_base.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/product.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />
+<style>
+    .table-with-bg {
+        background-image: url('{{ chosen_product_url }}');
+        /* This block of code has been added here because includes a Jinja2 variable*/
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 300px;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+{% block title %}Product{% endblock %}
+{% block header_conent%}
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-centre mt-1 me-md-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black" class="bi bi-house"
+                viewBox="0 0 16 16">
+                <path
+                    d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
+            </svg>
+        </a>
+        <ul class="nav nav-pills align-items-center">
+            <li class="nav-item">
+                <a href="/basket" class="px-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black"
+                        class="bi bi-basket2-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1z" />
+                    </svg>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            </li>
+        </ul>
+
+    </header>
+</div>
+{% endblock %}
+{% block content%}
+<div class="container text-center">
+    <h1>Product details</h1>
+    <form class="form-group" action="/categories" method="post">
+        <label for="product_type">Choose product type:</label>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <select class="form-control" id="product_type" name="product_type">
+                    <option value="Coasters">Coasters - 4x4 tumbled marble, cork back</option>
+                    <option value="WineStopper">Wine Stopper - 2x2 tumbled marble with metal base</option>
+                    <option value="Magnet">Magnet - 2x2 tumbled marble</option>
+                    <option value="Ornament">Ornament - 2x2 tumbled marble</option>
+                    <option value="RustHook">Rust Hook - 4x4 tumbled marble with metal hook</option>
+                    <option value="WallTrivet">Wall Trivet - 8x8 tumbled marble with Masonite back</option>
+                    <option value="TrivetWithCork">Trivet with cork - 8x8 tumbled marble with cork back</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-center mt-3">
+            <table class="table-with-bg">
+                <tr>
+                    <td>Tile A</td>
+                    <td>Tile B</td>
+                </tr>
+                <tr>
+                    <td>Tile C</td>
+                    <td>Tile D</td>
+                </tr>
+            </table>
+        </div>
+
+        <p>In total you selected <span id="product_counter">0</span> tiles, including: <span id="selectedList"></span>
+        </p>
+        <input type="hidden" name="product_counter">
+        <input type="hidden" name="selected_tiles">
+        <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
+        <div class="alert alert-warning d-inline-block" role="alert">Note: if you do not select any tile but still add
+            the product to your basket, all of the tiles will be included.</div>
+        <br>
+        <label for="product_quantity">Quantity:</label>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="number" id="product_quantity" name="product_quantity" min="1" value="1"
+                        class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            <input class="btn btn-primary" type="submit" value="Add to basket">
+        </div>
+    </form>
+    <form action="/collections" method="post">
+        <div class="text-center mt-2">
+            <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
+            <input class="btn btn-secondary" type="submit" value="Back">
+        </div>
+    </form>
+    {% endblock %}
+    {% block javascript %}
+    <script src="{{ url_for('static', filename='scripts/tilesgrid_script.js') }}"></script>
+    {% endblock %}

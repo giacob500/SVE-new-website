@@ -1,0 +1,66 @@
+/* Code below regulates aspect of elements in login, register and home page */
+
+.background-fade {
+    margin: 0;
+    padding: 0;
+    height: 75vh;
+    background-image: linear-gradient(to bottom, white, rgba(0, 0, 0, 0)), url('../imgs/bg/home_bg_light.jpg');
+    background-size: 100% auto;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+.logo-container {
+    height: 25vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.company-logo {
+    max-width: 75%;
+    max-height: 75%;
+}
+
+.text-center p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.text-center p:first-child {
+    margin-top: 20px; /* Add some space above the first paragraph */
+}
+
+.text-center p:last-child {
+    margin-bottom: 20px; /* Add some space below the last paragraph */
+}
+
+.btn-primary {
+    margin-top: 20px; /* Add space above the "Enter" button */
+}
+
+.error-paragraph-style {
+    text-align: left; /* Add space above the "Enter" button */
+}
+
+.background-crackedmarble {
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(to bottom, white, rgba(0, 0, 0, 0)), url('../imgs/bg/cracked_marble_light.jpg');
+    background-size: contain;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+.paragraph-pic {
+  max-width: 30%; /* Adjust the maximum width as needed */
+  margin: auto; /* Center the image */
+}
+
+.paragraph-pic img {
+  width: 100%;
+  height: auto;
+  display: block; /* Remove extra space beneath the image */
+  margin: auto; /* Center the image */
+}

@@ -1,0 +1,22 @@
+{% extends "jinja/bases/general_base.html" %}
+{% block title %}Admin View{% endblock %}
+{% block content%}
+<div class="container mt-5">
+    <div class="alert alert-danger" role="alert">
+        Page available only to website administrator.
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Registered Users</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in values %}
+            <tr>
+                <td>{{item.email}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,46 @@
+/* Code below regulates aspect of buttons on categories page */
+
+.marble-button {
+  background-image: url('../imgs/textures/marble.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: black;
+  width: 300px;
+  height: 300px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+.terracotta-button {
+  background-image: url('../imgs/textures/terracotta.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  width: 300px;
+  height: 300px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+.wood-button {
+  background-image: url('../imgs/textures/wood.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  width: 300px;
+  height: 300px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+.marble-button:hover {
+  color: black;
+}
+
+.terracotta-button:hover {
+  color: white;
+}
+
+.wood-button:hover {
+  color: white;
+}

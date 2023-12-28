@@ -1,0 +1,109 @@
+{% extends "jinja/bases/general_base.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/basket.css') }}" />
+{% endblock %}
+{% block title %}Basket{% endblock %}
+{% block header_conent%}
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-centre mt-1 me-md-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black" class="bi bi-house"
+                viewBox="0 0 16 16">
+                <path
+                    d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
+            </svg>
+        </a>
+        <ul class="nav nav-pills align-items-center">
+            <li class="nav-item px-3">
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            </li>
+        </ul>
+
+    </header>
+</div>
+{% endblock %}
+{% block content%}
+<div class="text-center">
+    <h1>Your Basket</h1>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            {% if basket_data %}
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Selected Tiles in Total</th>
+                        <th scope="col">Tiles Details</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col" class="text-danger">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in basket_data %}
+                    <tr>
+                        <td>{{ item.product_name }}</td>
+                        <th>{{ item.product_type }}</th>
+                        <td>{{ item.product_counter }}</td>
+                        <td>{{ item.selected_tiles }}</td>
+                        <td>{{ item.product_quantity }}</td>
+                        <td>
+                            <form action="/basket" method="post">
+                                <input type="hidden" name="remove" value="{{ item.product_name }}-{{ item.product_type }}-{{ item.product_counter }}-{{ item.selected_tiles }}-{{ item.product_quantity }}">
+                                <button type="submit" class="btn btn-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                    </svg>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="container mt-1">
+                <form id="emailForm">
+                  <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone number:</label>
+                    <input type="tel" class="form-control" id="phone" name="phone">
+                  </div>
+                  <div class="form-group">
+                    <label for="comments">Comments:</label>
+                    <textarea class="form-control" id="comments" name="comments"></textarea>
+                  </div>
+                  {% for item in basket_data %}
+                    <input type="hidden" name="Product Name" value="{{ item.product_name }}">
+                    <input type="hidden" name="Product Type" value="{{ item.product_type }}">
+                    <input type="hidden" name="Selected Tiles in Total" value="{{ item.product_counter }}">
+                    <input type="hidden" name="Tiles Details" value="{{ item.selected_tiles }}">
+                    <input type="hidden" name="Quantity" value="{{ item.product_quantity }}">
+                  {% endfor %}
+                  <button type="submit" class="btn btn-primary mt-4">Compose Email</button>
+                </form>
+                <div class="row mt-3">
+                    <form action="/basket" method="post" class="mr-2">
+                        <input class="btn btn-danger" type="submit" name="reset" value="Empty Basket"
+                            onclick="return showConfirmation('Are you sure you want to delete all the items in the basket?')">
+                    </form>
+                </div>
+              </div>
+            {% else %}
+            <p>Your basket is empty.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="{{ url_for('static', filename='scripts/confirmation_script.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/email_script.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,6 @@
+/* Code below regulates aspect of bin icon in basket page */
+
+.bi-trash:hover {
+    fill: lightcoral;
+    cursor: pointer;
+}

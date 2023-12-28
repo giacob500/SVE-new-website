@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include "jinja/headers.html" %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3">
+            <a class="d-flex align-items-centre mt-1 me-md-auto"></a>
+            <ul class="nav nav-pills align-items-center">
+                {% if username %}
+                <li class="nav-item">
+                    <a href="/basket" class="px-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black"
+                            class="bi bi-basket2-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1z" />
+                        </svg>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    {% if username %}
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                    {% endif %}
+                </li>
+            </ul>
+
+        </header>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="logo-container">
+                    <img src="../static/imgs/logo/sve-upscaled.png" alt="Company Logo" class="company-logo">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="text-center">
+                    <h1>Welcome to SVE{% if username %}, {{ username }}{% endif %}
+                    </h1>
+                    <div class="alert alert-warning d-inline-block" role="alert">
+                        {% block announcement %}
+                        {% endblock %}
+                    </div><br>
+                    {% if username %}
+                    <a href="/categories" class="btn btn-dark btn-lg">Enter</a>
+                    {% else %}
+                    <a href="/login" class="btn btn-outline-dark btn-lg mb-3">Enter</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="d-flex">
+                    <div class="flex-shrink-0 paragraph-pic">
+                        <img src="../static/imgs/paragraph/valpo.jpg" alt="Sample Image">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="lead text-justify">
+                            {% block histroy_part1 %}
+                            
+                            {% endblock %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-8 mx-auto">
+                <div class="d-flex">
+                    <div class="flex-grow-1 me-3">
+                        <p class="lead text-end">
+                            {% block histroy_part2 %}
+                            
+                            {% endblock %}
+                        </p>
+                    </div>
+                    <div class="paragraph-pic">
+                        <img src="../static/imgs/paragraph/leo_potrait.png" alt="Leonardo potrait">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="background-fade">
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
+            {% include "jinja/footer_content.html" %}
+        </footer>
+    </div>
+    {% include "jinja/bootstrap_js.html" %}
+</body>
+
+</html>

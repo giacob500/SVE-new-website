@@ -1,0 +1,28 @@
+{% extends "jinja/bases/general_base.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />{% endblock %}
+{% block title %}Error{% endblock %}
+{% block content%}
+<div class="background-crackedmarble">
+    <div class="row">
+        <div class="col">
+            <div class="logo-container">
+                <img src="../static/imgs/logo/sve-upscaled.png" alt="Company Logo" class="company-logo">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="text-center">
+                <h1>Oops! This tile broke</h1>
+                <div class="d-flex justify-content-center align-items-center mt-4">
+                    {% if error_message %}
+                    <p class="error-paragraph-style text-shadow">{{ error_message }}</p>
+                    {% endif %}
+                </div>
+                <a href="/" class="btn btn-primary">Homepage</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "jinja/bases/general_base.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />{% endblock %}
+{% block title %}Login{% endblock %}
+{% block top_content%}
+<div class="row">
+    <div class="col-12">
+        <a href="/">
+            <div class="logo-container">
+                <img src="../static/imgs/logo/sve-upscaled.png" alt="Company Logo" class="company-logo">
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}
+{% block content%}
+<div class="row justify-content-center">
+    <div class="col-12 col-sm-8 col-md-6">
+        <div class="text-center">
+            <div class="alert alert-warning d-inline-block" role="alert">
+                Please log-in with your credentials, if you do not have any, use the "Register" button below.
+            </div>
+        </div>
+        <form class="row g-3 mt-2" action="#" method="post">
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="inputEmail" name="email"
+                        placeholder="name@example.com" required>
+                    <label for="inputEmail" class="form-label">Email Address</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="inputPassword" name="pswd" placeholder="Password"
+                        required>
+                    <label for="inputPassword" class="form-label">Password</label>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Login" />
+            <a href="/register" class="btn btn-secondary">Register</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
