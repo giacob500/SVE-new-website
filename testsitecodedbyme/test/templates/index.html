@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagination Example</title>
+    <title>Product List</title>
 </head>
 <body>
     <h1>Product List</h1>
     <ul>
-        {% for product in products %}
-            <li>{{ product }}</li>
+        {% for product in products.items %}
+            <li>{{ product.name }} - {{ product.category }}</li>
         {% endfor %}
     </ul>
+    
     <div>
-        {% if page > 1 %}
-            <a href="{{ url_for('index', page=page-1) }}">Previous</a>
+        {% if products.has_prev %}
+            <a href="{{ url_for('index', page=products.prev_num) }}">Previous</a>
         {% endif %}
-        Page {{ page }}
-        {% if products|length == 10 %}
-            <a href="{{ url_for('index', page=page+1) }}">Next</a>
+        
+        Page {{ products.page }} of {{ products.pages }}
+        
+        {% if products.has_next %}
+            <a href="{{ url_for('index', page=products.next_num) }}">Next</a>
         {% endif %}
     </div>
 </body>

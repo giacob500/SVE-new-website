@@ -4,6 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
+# Dummy data (replace with your actual data)
+all_products = [f"Product {i}" for i in range(1, 119)]  # 100 dummy products
+
 
 #---- APP CONFIGURATION ----
 
@@ -108,20 +111,37 @@ def categories():
 @app.route("/collections", methods=["POST", "GET"])
 def collections():
     if "email" in session:
-        if request.method == "POST":
 
+        if request.method == "POST":
             if "product_name" in request.form:
                 # Enter this condition if browsing back from product page
                 old_product_name = request.form["product_name"]
                 retrived_category = Products.query.filter_by(name=old_product_name).first()
                 chosen_category = retrived_category.category
+                
             else:
                 chosen_category = request.form["category"]
+            session["last_category"] = chosen_category
 
-            products = Products.query.filter_by(category=chosen_category.lower()).all()
+        # Pagination
+        elif request.method == "GET":
+            if "last_category" not in session:
+                chosen_category = "marble"
+            else:
+                chosen_category = session["last_category"]
+       
+        page = request.args.get('page', 1, type=int)
+        items_per_page = 9
+        pagination = Products.query.filter_by(category=chosen_category.lower()).paginate(page=page, per_page=items_per_page, error_out=False)
+        products = pagination.items
+        total_pages = pagination.pages
 
-            return render_template("collections.html", chosen_category=chosen_category, products=products)
-        
+        # Prevent user tampering page value in the URL
+        if page <= total_pages and page > 0:
+            return render_template("collections.html", chosen_category=chosen_category, products=products, page=page, total_pages=total_pages)
+        else:
+            return redirect(url_for("collections"))
+
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
 
