@@ -58,6 +58,17 @@
         {% endfor %}
     </div>
     {% endif %}
+    <div>
+        {% if page is defined and page > 1 %}
+            <a href="{{ url_for('collections', page=page-1) }}">Previous</a>
+        {% endif %}
+        {% if page is defined %}
+            Page {{ page }} of {{ total_pages }}
+        {% endif %}
+        {% if products|length == 9 %}            
+            <a href="{{ url_for('collections', page=(page|default(0))+1) }}">Next</a>
+        {% endif %}
+    </div>
     <div class="text-center">
         <a href="/categories" class="btn btn-secondary">Back</a>
     </div>
