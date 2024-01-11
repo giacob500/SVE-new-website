@@ -35,6 +35,7 @@
 <div class="text-center">
     <h1>{% if chosen_category %}{{ chosen_category }}{% endif %}</h1>
 </div>
+
 <div class="container">
     {% if products|length == 0 %}
     <div class="text-center">
@@ -43,6 +44,21 @@
     {% else %}
     <div class="text-center">
         <p>Choose a collection from below:</p>
+    </div>
+    <div class="text-center">
+        {% if pagination is defined and pagination.total > 0 %}
+            {% if pagination.page > 1 %}
+                <a href="{{ url_for('collections', page=pagination.prev_num) }}" type="button" class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                    <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                  </svg></a>
+            {% endif %}
+            Page {{ pagination.page }} of {{ pagination.pages }}
+            {% if pagination.has_next == True %}
+                <a href="{{ url_for('collections', page=pagination.next_num) }}" type="button" class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                    <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                  </svg></a>
+            {% endif %}
+        {% endif %}
     </div>
     <div class="row">
         {% for product in products %}
@@ -58,15 +74,19 @@
         {% endfor %}
     </div>
     {% endif %}
-    <div>
-        {% if page is defined and page > 1 %}
-            <a href="{{ url_for('collections', page=page-1) }}">Previous</a>
-        {% endif %}
-        {% if page is defined %}
-            Page {{ page }} of {{ total_pages }}
-        {% endif %}
-        {% if products|length == 9 %}            
-            <a href="{{ url_for('collections', page=(page|default(0))+1) }}">Next</a>
+    <div class="text-center">
+        {% if pagination is defined and pagination.total > 0 %}
+            {% if pagination.page > 1 %}
+                <a href="{{ url_for('collections', page=pagination.prev_num) }}" type="button" class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                    <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                  </svg></a>                  
+            {% endif %}
+            Page {{ pagination.page }} of {{ pagination.pages }}
+            {% if pagination.has_next == True %}
+                <a href="{{ url_for('collections', page=pagination.next_num) }}" type="button" class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                    <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                  </svg></a>
+            {% endif %}
         {% endif %}
     </div>
     <div class="text-center">

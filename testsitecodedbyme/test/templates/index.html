@@ -8,21 +8,15 @@
 <body>
     <h1>Product List</h1>
     <ul>
-        {% for product in products.items %}
-            <li>{{ product.name }} - {{ product.category }}</li>
+        {% for product in products %}
+            <li>{{ product.name }}</li>
         {% endfor %}
     </ul>
-    
-    <div>
-        {% if products.has_prev %}
-            <a href="{{ url_for('index', page=products.prev_num) }}">Previous</a>
-        {% endif %}
-        
-        Page {{ products.page }} of {{ products.pages }}
-        
-        {% if products.has_next %}
-            <a href="{{ url_for('index', page=products.next_num) }}">Next</a>
-        {% endif %}
+
+    <!-- Pagination Navigation -->
+    <div class="pagination">
+        {{ pagination.info }}
+        {{ pagination.links }}
     </div>
 </body>
 </html>
