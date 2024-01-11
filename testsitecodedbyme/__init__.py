@@ -119,8 +119,10 @@ def collections():
                 retrived_category = Products.query.filter_by(name=old_product_name).first()
                 chosen_category = retrived_category.category
                 
+            
             else:
                 chosen_category = request.form["category"]
+                print("Scelto: ", chosen_category)
             session["last_category"] = chosen_category
 
         # Pagination
@@ -130,17 +132,16 @@ def collections():
             else:
                 chosen_category = session["last_category"]
        
-        page = request.args.get('page', 1, type=int)
+        current_page = request.args.get('page', 1, type=int)
         items_per_page = 9
-        pagination = Products.query.filter_by(category=chosen_category.lower()).paginate(page=page, per_page=items_per_page, error_out=False)
+        pagination = Products.query.filter_by(category=chosen_category.lower()).paginate(page=current_page, per_page=items_per_page, error_out=False)
         products = pagination.items
-        total_pages = pagination.pages
 
         # Prevent user tampering page value in the URL
-        if page <= total_pages and page > 0:
-            return render_template("collections.html", chosen_category=chosen_category, products=products, page=page, total_pages=total_pages)
+        if current_page <= pagination.pages and current_page > 0:
+            return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination)
         else:
-            return redirect(url_for("collections"))
+            return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination)
 
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
