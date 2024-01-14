@@ -33,7 +33,15 @@
 {% endblock %}
 {% block content%}
 <div class="text-center">
-    <h1>{% if chosen_category %}{{ chosen_category }}{% endif %}</h1>
+    <h1>{% if chosen_category == "marble" %} Marble
+        {% elif chosen_category == "marble_hearts" %} Marble Hearts
+        {% elif chosen_category == "slate" %} Slate
+        {% elif chosen_category == "terracotta" %} Terracotta
+        {% elif chosen_category == "terracotta_3d" %} 3D Terracotta
+        {% elif chosen_category == "books" %} 3D Books
+        {% else %}{{ chosen_category }}
+        {% endif %}
+    </h1>
 </div>
 
 <div class="container">
@@ -46,8 +54,8 @@
         <p>Choose a collection from below:</p>
     </div>
     <div class="text-center">
+        {% if pagination is defined and pagination.pages > 1 %}
         <nav>
-            {% if pagination is defined and pagination.total > 0 %}
             <ul class="pagination justify-content-center">
                 {% if pagination.has_prev == True %}
                 <a href="{{ url_for('collections', page=pagination.prev_num) }}" type="button" class="btn"><svg
@@ -97,8 +105,8 @@
                             </svg></a>
                         {% endif %}
             </ul>
-            {% endif %}
         </nav>
+        {% endif %}
     </div>
     <div class="row">
         {% for product in products %}
@@ -108,6 +116,7 @@
                     <img src="../{{ product.image_url }}" class="img-fluid" alt="{{ product.name }}">
                     <input type="hidden" name="product_image_url" value="{{ product.image_url }}">
                     <input type="hidden" name="product_name" value="{{ product.name }}">
+                    <input type="hidden" name="product_category" value="{{ product.category }}">
                 </button>
             </form>
         </div>
@@ -115,8 +124,8 @@
     </div>
     {% endif %}
     <div class="text-center">
+        {% if pagination is defined and pagination.pages > 1 %}
         <nav>
-            {% if pagination is defined and pagination.total > 0 %}
             <ul class="pagination justify-content-center">
                 {% if pagination.has_prev == True %}
                 <a href="{{ url_for('collections', page=pagination.prev_num) }}" type="button" class="btn"><svg
@@ -166,8 +175,8 @@
                             </svg></a>
                         {% endif %}
             </ul>
-            {% endif %}
         </nav>
+        {% endif %}
     </div>
     <div class="text-center">
         <a href="/categories" class="btn btn-secondary">Back</a>

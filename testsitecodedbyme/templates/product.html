@@ -3,6 +3,16 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/product.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />
 <style>
+    .table-with-contained-bg {
+        background-image: url('{{ chosen_product_url }}');
+        /* This block of code has been added here because includes a Jinja2 variable*/
+        background-size: contain;
+        background-position: center center;
+        background-repeat: no-repeat;
+        width: 300px;
+        cursor: pointer;
+    }
+
     .table-with-bg {
         background-image: url('{{ chosen_product_url }}');
         /* This block of code has been added here because includes a Jinja2 variable*/
@@ -42,10 +52,13 @@
     </header>
 </div>
 {% endblock %}
-{% block content%}
+{% block content %}
 <div class="container text-center">
     <h1>Product details</h1>
     <form class="form-group" action="/categories" method="post">
+        {% if chosen_product_category == "marble_hearts" or chosen_product_category == "books" %}
+        <img src="{{ chosen_product_url }}" class="img-fluid" width="500" alt="product image">
+        {% else %}
         <label for="product_type">Choose product type:</label>
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -62,7 +75,11 @@
         </div>
         <br>
         <div class="d-flex justify-content-center mt-3">
+            {% if chosen_product_category == "slate" %}
+            <table class="table-with-contained-bg">
+            {% else %}
             <table class="table-with-bg">
+            {% endif %}
                 <tr>
                     <td>Tile A</td>
                     <td>Tile B</td>
@@ -78,9 +95,10 @@
         </p>
         <input type="hidden" name="product_counter">
         <input type="hidden" name="selected_tiles">
-        <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
         <div class="alert alert-warning d-inline-block" role="alert">Note: if you do not select any tile but still add
             the product to your basket, all of the tiles will be included.</div>
+        {% endif %}
+        <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
         <br>
         <label for="product_quantity">Quantity:</label>
         <div class="row justify-content-center">

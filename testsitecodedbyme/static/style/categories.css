@@ -1,46 +1,59 @@
 /* Code below regulates aspect of buttons on categories page */
 
-.marble-button {
-  background-image: url('../imgs/textures/marble.jpg');
+.btn-block {
   background-size: cover;
   background-repeat: no-repeat;
-  color: black;
   width: 300px;
   height: 300px;
   border: none;
   cursor: pointer;
   text-decoration: none;
 }
-.terracotta-button {
-  background-image: url('../imgs/textures/terracotta.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: white;
-  width: 300px;
-  height: 300px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-}
-.wood-button {
-  background-image: url('../imgs/textures/wood.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: white;
-  width: 300px;
-  height: 300px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-}
-.marble-button:hover {
+
+.marble-button,
+.marble_hearts-button,
+.books-button,
+.marble-button:hover,
+.marble_hearts-button:hover,
+.books-button:hover {
   color: black;
 }
 
-.terracotta-button:hover {
-  color: white;
-}
-
+.slate-button,
+.terracotta-button,
+.terracotta_3d-button,
+.wood-button,
+.slate-button:hover,
+.terracotta-button:hover,
+.terracotta_3d-button:hover,
 .wood-button:hover {
   color: white;
+}
+
+.marble-button {
+  background-image: url('../imgs/textures/marble.jpg');
+}
+
+.marble_hearts-button {
+  background-image: url('../imgs/textures/marble_hearts.jpg');
+}
+
+.slate-button {
+  background-image: url('../imgs/textures/slate.jpg');
+}
+
+.terracotta-button {
+  background-image: url('../imgs/textures/terracotta.jpg');
+}
+
+.terracotta_3d-button {
+  background-image: url('../imgs/textures/terracotta_3d.jpg');
+}
+
+.books-button {
+  background-image: url('../imgs/textures/books.jpg');
+}
+
+.wood-button {
+  background-image: url('../imgs/textures/wood.jpg');
 }
