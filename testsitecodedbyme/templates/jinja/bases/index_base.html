@@ -45,10 +45,7 @@
                 <div class="text-center">
                     <h1>Welcome to SVE{% if username %}, {{ username }}{% endif %}
                     </h1>
-                    <div class="alert alert-warning d-inline-block" role="alert">
-                        {% block announcement %}
-                        {% endblock %}
-                    </div><br>
+                    <br>
                     {% if username %}
                     <a href="/categories" class="btn btn-dark btn-lg">Enter</a>
                     {% else %}
