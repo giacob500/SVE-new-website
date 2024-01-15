@@ -54,6 +54,10 @@ def handle_all_errors(e):
 
 #---- ROUTING AND PAGES ----
 
+@app.route("/index2")
+def home2():
+    return render_template("index2.html")
+
 # Page accessible only to website admins (currently just lorenzi@lorenzi.net) to check all users currently registered on website
 @app.route("/admin")
 def adminview():
