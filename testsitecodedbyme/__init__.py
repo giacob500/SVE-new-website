@@ -58,6 +58,14 @@ def handle_all_errors(e):
 def home2():
     return render_template("index2.html")
 
+@app.route("/contacts")
+def contacts():
+    return render_template("contacts.html")
+
+@app.route("/history")
+def history():
+    return render_template("history.html")
+
 # Page accessible only to website admins (currently just lorenzi@lorenzi.net) to check all users currently registered on website
 @app.route("/admin")
 def adminview():

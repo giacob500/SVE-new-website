@@ -3,7 +3,7 @@
  "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 215.000000 95.000000"
 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
-<g transform="translate(0.000000,95.000000) scale(0.100000,-0.100000)" stroke="currentColor" fill="black">
+<g transform="translate(0.000000,95.000000) scale(0.100000,-0.100000)" stroke="currentColor" fill="currentColor">
 <path d="M695 820 c-3 -5 -31 -8 -61 -7 l-56 3 4 -60 c2 -48 0 -61 -12 -64
 -10 -2 -20 10 -28 32 -7 19 -26 46 -43 60 -101 85 -262 -4 -218 -121 15 -42
 55 -79 144 -138 98 -64 139 -107 160 -164 27 -76 14 -149 -37 -206 l-30 -35
