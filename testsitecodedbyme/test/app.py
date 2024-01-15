@@ -30,5 +30,9 @@ def index():
 
     return render_template('index.html', products=products, pagination=pagination)
 
+@app.route('/phone')
+def phone():
+    return render_template('phone_number.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
