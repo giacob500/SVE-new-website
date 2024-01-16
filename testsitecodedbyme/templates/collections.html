@@ -12,27 +12,41 @@
 {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
 {% endblock %}
 {% block content%}
-<div class="text-center">
-    <h1>{% if chosen_category == "marble" %} Marble
-        {% elif chosen_category == "marble_hearts" %} Marble Hearts
-        {% elif chosen_category == "slate" %} Slate
-        {% elif chosen_category == "terracotta" %} Terracotta
-        {% elif chosen_category == "terracotta_3d" %} 3D Terracotta
-        {% elif chosen_category == "books" %} 3D Books
-        {% else %}{{ chosen_category }}
-        {% endif %}
-    </h1>
-</div>
-
 <div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="text-center">
+                <a href="/categories"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="black"
+                        class="bi bi-arrow-left-short" viewBox="0 1 16 16">
+                        <path fill-rule="evenodd"
+                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                    </svg></a>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="text-center">
+                <h1>
+                    {% if chosen_category == "marble" %} Marble
+                    {% elif chosen_category == "marble_hearts" %} Marble Hearts
+                    {% elif chosen_category == "slate" %} Slate
+                    {% elif chosen_category == "terracotta" %} Terracotta
+                    {% elif chosen_category == "terracotta_3d" %} 3D Terracotta
+                    {% elif chosen_category == "books" %} 3D Books
+                    {% else %}{{ chosen_category }}
+                    {% endif %}
+                </h1>
+            </div>
+        </div>
+        <div class="col-sm">
+            <!-- Empty div necessary for page title layout -->
+        </div>
+    </div>
+
     {% if products|length == 0 %}
     <div class="text-center">
         <p>No {{ chosen_category }} products available at the moment. More products will arrive soon!</p>
     </div>
     {% else %}
-    <div class="text-center">
-        <p>Choose a collection from below:</p>
-    </div>
     <div class="text-center">
         {% if pagination is defined and pagination.pages > 1 %}
         <nav>
@@ -157,9 +171,6 @@
             </ul>
         </nav>
         {% endif %}
-    </div>
-    <div class="text-center">
-        <a href="/categories" class="btn btn-secondary">Back</a>
     </div>
 </div>
 {% endblock %}

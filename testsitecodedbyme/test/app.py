@@ -1,3 +1,4 @@
+"""
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_paginate import Pagination, get_page_args
@@ -36,3 +37,4 @@ def phone():
 
 if __name__ == '__main__':
     app.run(debug=True)
+"""

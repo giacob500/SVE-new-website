@@ -13,10 +13,9 @@
 {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
 {% endblock %}
 {% block content%}
-<div class="text-center">
-    <h1>Categories</h1>
-    <div class="container">
-        <p>Choose a category from below:</p>
+<div class="container">
+    <div class="text-center">
+        <h1>Categories</h1>
         <form action="/collections" method="post">
             <div class="row mb-3">
                 <div class="col-md-6 col-lg-4 mb-3">

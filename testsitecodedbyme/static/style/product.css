@@ -34,3 +34,7 @@ label{
   text-align: justify; /* Justify the text within the paragraph */
   margin-bottom: 20px;
 }
+
+.product_quantity{
+  max-width: fit-content;
+}
