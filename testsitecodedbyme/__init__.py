@@ -39,7 +39,7 @@ class Products(db.Model):
 @app.errorhandler(404)
 def invalid_route(e):
     return render_template("error.html", error_message="The source you are looking forward does not exist. Please return to the homepage."), 404
-"""
+
 # Error handler for all server errors (5xx)
 @app.errorhandler(500)
 def internal_server_error(e):
@@ -50,13 +50,13 @@ def internal_server_error(e):
 @app.errorhandler(Exception)
 def handle_all_errors(e):
     return render_template('error.html', error_message='An unexpected error occurred'), 500
-"""
+
 
 #---- ROUTING AND PAGES ----
 
-@app.route("/index2")
+@app.route("/terms")
 def home2():
-    return render_template("index2.html")
+    return render_template("terms.html")
 
 @app.route("/contacts")
 def contacts():
@@ -86,98 +86,96 @@ def home():
 
 @app.route("/categories", methods=["POST", "GET"])
 def categories():
-    if "email" in session:
-        if request.method == "POST":
-
-            # If no tile selection has been made in product page, include the whole set in the basket
-            product_name = request.form["product_name"]
-            if "product_counter" in request.form and "product_type" in request.form:
-                product_type = request.form["product_type"]
-                if request.form["product_counter"] == "":
-                    product_counter = 4
-                    selected_tiles = "Tile A, Tile B, Tile C, Tile D"
-                else:
-                    product_counter = int(request.form["product_counter"])
-                    selected_tiles = request.form["selected_tiles"]
-
-            product_quantity = int(request.form["product_quantity"])
-            
-            # Store the data in the session
-            product_data = {
-                    "product_name": product_name,
-                    
-                    "product_quantity": product_quantity
-                }
-            if "product_counter" in request.form and "product_type" in request.form:
-                product_data.update({
-                    "selected_tiles": selected_tiles,
-                    "product_type": product_type,
-                    "product_counter": product_counter,
-                })
-            else:
-                product_data.update({
-                    "selected_tiles": "",
-                    "product_type": "N/A",
-                    "product_counter": "N/A",
-                })
-            # Check if the "product_data" list is already in the session, if not, initialize it
-            if "basket_data" not in session:
-                session["basket_data"] = []
-            session["basket_data"].append(product_data)
-            return redirect(url_for("categories"))
+    if request.method == "POST":
         
+        # If no tile selection has been made in product page, include the whole set in the basket
+        product_name = request.form["product_name"]
+        if "product_counter" in request.form and "product_type" in request.form:
+            product_type = request.form["product_type"]
+            if request.form["product_counter"] == "":
+                product_counter = 4
+                selected_tiles = "Tile A, Tile B, Tile C, Tile D"
+            else:
+                product_counter = int(request.form["product_counter"])
+                selected_tiles = request.form["selected_tiles"]
+
+        product_quantity = int(request.form["product_quantity"])
+        
+        # Store the data in the session
+        product_data = {
+                "product_name": product_name,
+                
+                "product_quantity": product_quantity
+            }
+        if "product_counter" in request.form and "product_type" in request.form:
+            product_data.update({
+                "selected_tiles": selected_tiles,
+                "product_type": product_type,
+                "product_counter": product_counter,
+            })
+        else:
+            product_data.update({
+                "selected_tiles": "",
+                "product_type": "N/A",
+                "product_counter": "N/A",
+            })
+        # Check if the "product_data" list is already in the session, if not, initialize it
+        if "basket_data" not in session:
+            session["basket_data"] = []
+        session["basket_data"].append(product_data)
+        
+        if "email" in session:
+            return redirect(url_for("categories"))
+        else:
+            flash("Please log-in to add item to basket", "info")
+            return redirect(url_for("user"))
+    if "email" in session:
+        return render_template("categories.html", username=session["email"])
+    else:
         return render_template("categories.html")
-    
-    flash("Please log-in to access this page", "info")
-    return redirect(url_for("login"))
 
 @app.route("/collections", methods=["POST", "GET"])
 def collections():
-    if "email" in session:
-
-        if request.method == "POST":
-            if "product_name" in request.form:
-                # Enter this condition if browsing back from product page
-                old_product_name = request.form["product_name"]
-                retrived_category = Products.query.filter_by(name=old_product_name).first()
-                chosen_category = retrived_category.category
-                
-            else:
-                chosen_category = request.form["category"]
-            session["last_category"] = chosen_category
-
-        # Pagination
-        elif request.method == "GET":
-            if "last_category" not in session:
-                chosen_category = "marble"
-            else:
-                chosen_category = session["last_category"]
-       
-        current_page = request.args.get('page', 1, type=int)
-        items_per_page = 9
-        pagination = Products.query.filter_by(category=chosen_category.lower()).paginate(page=current_page, per_page=items_per_page, error_out=False)
-        products = pagination.items
-
-        # Prevent user tampering page value in the URL
-        if current_page <= pagination.pages and current_page > 0:
-            return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination)
+    if request.method == "POST":
+        if "product_name" in request.form:
+            # Enter this condition if browsing back from product page
+            old_product_name = request.form["product_name"]
+            retrived_category = Products.query.filter_by(name=old_product_name).first()
+            chosen_category = retrived_category.category
         else:
-            return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination)
+            chosen_category = request.form["category"]
+        session["last_category"] = chosen_category
 
-    flash("Please log-in to access this page", "info")
-    return redirect(url_for("login"))
+    # Pagination
+    elif request.method == "GET":
+        if "last_category" not in session:
+            chosen_category = "marble"
+        else:
+            chosen_category = session["last_category"]
+    
+    current_page = request.args.get('page', 1, type=int)
+    items_per_page = 9
+    pagination = Products.query.filter_by(category=chosen_category.lower()).paginate(page=current_page, per_page=items_per_page, error_out=False)
+    products = pagination.items
+
+    # Prevent user tampering page value in the URL
+    if "email" in session:
+        return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination, username=session["email"])
+    else:
+        return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination)
+    
 
 @app.route("/product", methods=["POST", "GET"])
 def product():
-    if "email" in session:
-        if request.method == "POST":
-            chosen_product_url = request.form["product_image_url"]
-            chosen_product_name = request.form["product_name"]
-            chosen_product_category = request.form["product_category"]
+    if request.method == "POST":
+        chosen_product_url = request.form["product_image_url"]
+        chosen_product_name = request.form["product_name"]
+        chosen_product_category = request.form["product_category"]
+        if "email" in session:
+            return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category, username=session["email"])
+        else:
             return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category)
         
-    flash("Please log-in to access this page", "info")
-    return redirect(url_for("login"))
 
 @app.route("/basket", methods=["POST", "GET"])
 def basket():
@@ -206,7 +204,7 @@ def basket():
             return redirect(url_for("basket"))
         
         if "basket_data" in session:
-            return render_template("basket.html", basket_data=session["basket_data"])
+            return render_template("basket.html", basket_data=session["basket_data"], username=session["email"])
         return render_template("basket.html")
     
     flash("Please log-in to access this page", "info")
@@ -283,4 +281,4 @@ def logout():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run()

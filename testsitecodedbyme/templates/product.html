@@ -30,75 +30,95 @@
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="../static/material/SVEpricelistJan2024.pdf"
     target="_blank">Pricing</a>
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
+{% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
 {% endblock %}
 {% block content %}
-<div class="container text-center">
-    <h1>Product details</h1>
-    <form class="form-group" action="/categories" method="post">
-        {% if chosen_product_category == "marble_hearts" or chosen_product_category == "books" %}
-        <img src="{{ chosen_product_url }}" class="img-fluid" width="500" alt="product image">
-        {% else %}
-        <label for="product_type">Choose product type:</label>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <select class="form-control" id="product_type" name="product_type">
-                    <option value="Coasters">Coasters - 4x4 tumbled marble, cork back</option>
-                    <option value="WineStopper">Wine Stopper - 2x2 tumbled marble with metal base</option>
-                    <option value="Magnet">Magnet - 2x2 tumbled marble</option>
-                    <option value="Ornament">Ornament - 2x2 tumbled marble</option>
-                    <option value="RustHook">Rust Hook - 4x4 tumbled marble with metal hook</option>
-                    <option value="WallTrivet">Wall Trivet - 8x8 tumbled marble with Masonite back</option>
-                    <option value="TrivetWithCork">Trivet with cork - 8x8 tumbled marble with cork back</option>
-                </select>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="text-center">
+                <a href="/collections"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="black"
+                        class="bi bi-arrow-left-short" viewBox="0 1 16 16">
+                        <path fill-rule="evenodd"
+                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                    </svg></a>
             </div>
         </div>
-        <br>
-        <div class="d-flex justify-content-center mt-3">
-            {% if chosen_product_category == "slate" %}
-            <table class="table-with-contained-bg">
-            {% else %}
-            <table class="table-with-bg">
-            {% endif %}
-                <tr>
-                    <td>Tile A</td>
-                    <td>Tile B</td>
-                </tr>
-                <tr>
-                    <td>Tile C</td>
-                    <td>Tile D</td>
-                </tr>
-            </table>
+        <div class="col-sm">
+            <div class="text-center">
+                <h1>Product details</h1>
+            </div>
         </div>
+        <div class="col-sm">
+            <!-- Empty div necessary for page title layout -->
+        </div>
+    </div>
+    <div class="text-center">
+        <form class="form-group" action="/categories" method="post">
+            {% if chosen_product_category == "marble_hearts" or chosen_product_category == "books" %}
+            <img src="{{ chosen_product_url }}" class="img-fluid" width="500" alt="product image">
+            {% else %}
+            <label for="product_type">Choose product type:</label>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <select class="form-control" id="product_type" name="product_type">
+                        <option value="Coasters">Coasters - 4x4 tumbled marble, cork back</option>
+                        <option value="WineStopper">Wine Stopper - 2x2 tumbled marble with metal base</option>
+                        <option value="Magnet">Magnet - 2x2 tumbled marble</option>
+                        <option value="Ornament">Ornament - 2x2 tumbled marble</option>
+                        <option value="RustHook">Rust Hook - 4x4 tumbled marble with metal hook</option>
+                        <option value="WallTrivet">Wall Trivet - 8x8 tumbled marble with Masonite back</option>
+                        <option value="TrivetWithCork">Trivet with cork - 8x8 tumbled marble with cork back</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="d-flex justify-content-center mt-3">
+                {% if chosen_product_category == "slate" %}
+                <table class="table-with-contained-bg">
+                    {% else %}
+                    <table class="table-with-bg">
+                        {% endif %}
+                        <tr>
+                            <td>Tile A</td>
+                            <td>Tile B</td>
+                        </tr>
+                        <tr>
+                            <td>Tile C</td>
+                            <td>Tile D</td>
+                        </tr>
+                    </table>
+            </div>
 
-        <p>In total you selected <span id="product_counter">0</span> tiles, including: <span id="selectedList"></span>
-        </p>
-        <input type="hidden" name="product_counter">
-        <input type="hidden" name="selected_tiles">
-        <div class="alert alert-warning d-inline-block" role="alert">Note: if you do not select any tile but still add
-            the product to your basket, all of the tiles will be included.</div>
-        {% endif %}
-        <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
-        <br>
-        <label for="product_quantity">Quantity:</label>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="input-group">
+            <p>In total you selected <span id="product_counter">0</span> tiles, including: <span
+                    id="selectedList"></span>
+            </p>
+            <input type="hidden" name="product_counter">
+            <input type="hidden" name="selected_tiles">
+            <div class="alert alert-warning d-inline-block" role="alert">Note: if you do not select any tile but still
+                add
+                the product to your basket, all of the tiles will be included.</div>
+            {% endif %}
+            <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
+            <br>
+            <label for="product_quantity">Quantity:</label>
+            <div class="row justify-content-center">
+                <div class="product_quantity">
                     <input type="number" id="product_quantity" name="product_quantity" min="1" value="1"
                         class="form-control">
                 </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-center mt-3">
-            <input class="btn btn-primary" type="submit" value="Add to basket">
-        </div>
-    </form>
-    <form action="/collections" method="post">
-        <div class="text-center mt-2">
-            <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
-            <input class="btn btn-secondary" type="submit" value="Back">
-        </div>
-    </form>
-    {% endblock %}
-    {% block javascript %}
-    <script src="{{ url_for('static', filename='scripts/tilesgrid_script.js') }}"></script>
-    {% endblock %}
+            <div class="d-flex justify-content-center mt-3">
+                <input class="btn btn-dark" type="submit" value="Add to basket">
+            </div>
+        </form>
+        <form action="/collections" method="post">
+            <div class="text-center mt-2">
+                <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
+                <input class="btn btn-outline-dark" type="submit" value="Back to product selection">
+            </div>
+        </form>
+        {% endblock %}
+        {% block javascript %}
+        <script src="{{ url_for('static', filename='scripts/tilesgrid_script.js') }}"></script>
+        {% endblock %}
