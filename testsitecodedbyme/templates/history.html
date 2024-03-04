@@ -1,6 +1,13 @@
 {% extends "jinja/bases/general_base.html" %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/history.css') }}" />
+<link href="../static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="../static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<link href="../static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+<link href="../static/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
 {% endblock %}
 {% block tab_title %}History{% endblock %}
 {% block header_conent%}
@@ -12,16 +19,22 @@
 {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
 {% endblock %}
 {% block content%}
+
+<!-- ======= Story Intro Section ======= -->
+<section id="story-intro" class="story-intro">
     <div class="container">
-        <div class="row mt-5">
-            <div class="col-lg-8 mx-auto">
-                <div class="d-flex">
-                    <div class="flex-shrink-0 paragraph-pic">
-                        <img src="../static/imgs/paragraph/valpo.jpg" alt="Sample Image">
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <p class="lead text-justify">
-                            During the Roman period, Verona and Valpolicella were already known for the quarrying and
+
+      <div class="row">
+        <div class="col-lg-6 order-1 order-lg-2">
+          <img src="../static/imgs/paragraph/valpo2.jpg" class="img-fluid" alt="Valpolicella">
+        </div>
+        <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+          <h3>The background</h3>
+          <p class="fst-italic">
+            The origin of the company in Valpolicella.
+          </p>
+          <p>
+            During the Roman period, Verona and Valpolicella were already known for the quarrying and
                             processing of their marbles. They were used both for defensive and decorative purposes: the
                             streets, the churches, the buildings, and the monuments of Verona are made of this noble
                             material, and their astonishing beauty still amazes visitors.
@@ -29,19 +42,27 @@
                             Nowadays, Verona hosts one of the most important districts for marble processing, relying on
                             a network of producers and craftsmen of the highest level and competence. STUDIOSVE is part
                             of this story.
-                            <br><br>
-                        </p>
-                    </div>
-                </div>
-            </div>
+          </p>
         </div>
-        <div class="row mt-2">
-            <div class="col-lg-8 mx-auto">
-                <div class="d-flex">
-                    <div class="flex-grow-1 me-3">
-                        <p class="lead text-end">
-                            {% block histroy_part2 %}
-                            It all began when Leo, fascinated by the frescoes he could see in his hometown and a
+      </div>
+
+    </div>
+  </section><!-- End Story Intro Section -->
+  <!-- ======= Featured Members Section ======= -->
+  <section id="featured-members" class="featured-members">
+    <div class="container">
+
+      <div class="row content">
+        <div class="col-lg-6 d-flex align-items-center justify-content-center">
+          <img src="../static/imgs/paragraph/leo_potrait_resized.png" class="img-fluid" alt="">
+        </div>
+        <div class="col-lg-6 pt-3 pt-lg-0">
+          <h3>Who started it all</h3>
+          <p class="fst-italic">
+            Introduction of the company's C.E.O.
+          </p>
+          <p>
+            It all began when Leo, fascinated by the frescoes he could see in his hometown and a
                             descendant of an ancient family of artists (discover more at <a
                                 href="http://www.lorenzi.net/" target="_blank">www.lorenzi.net</a>), developed an
                             innovative technique to reproduce those paintings on marble. This was the starting point of
@@ -51,15 +72,10 @@
                             "quarried" more than 2000 different images. Other Italian traditional materials like
                             terracotta and slate were introduced. We customize our products on demand. The only limit is
                             your imagination.
-                            {% endblock %}
-                        </p>
-                    </div>
-                    <div class="paragraph-pic">
-                        <img src="../static/imgs/paragraph/leo_potrait.png" alt="Leonardo potrait">
-                    </div>
-                </div>
-
-            </div>
+          </p>
         </div>
+      </div>
+
     </div>
+  </section><!-- End Featured Members Section -->
 {% endblock %}
