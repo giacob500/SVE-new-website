@@ -28,7 +28,7 @@ document.getElementById('emailForm').addEventListener('submit', function (event)
         var comments = document.getElementById('comments').value;
     }
 
-    var mailtoLink = 'mailto:lorenzi@lorenzi.net?subject=New%20Order%20from%20SVE%20website%20-%20'
+    var mailtoLink = 'mailto:info@studiosve.com?subject=New%20Order%20from%20SVE%20website%20-%20'
     + encodeURIComponent(name) + '&body=Hi%2C%0D%0Aplease%20check%20out%20the%20order%20below%3A%0D%0A%0D%0A' + encodeURIComponent(bodyContent) + '%0D%0A';
     
     if (comments !== null) {
