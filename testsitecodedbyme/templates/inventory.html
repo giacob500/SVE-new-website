@@ -1,0 +1,40 @@
+{% extends "jinja/bases/general_base.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/inventory.css') }}" />
+{% endblock %}
+{% block tab_title %}Inventory{% endblock %}
+{% block header_conent%}
+<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/#explore">Explore</a>
+<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/history">History</a>
+<a class="py-2 d-none d-md-inline-block text-decoration-none" href="../static/material/SVEpricelistJan2024.pdf"
+    target="_blank">Pricing</a>
+<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
+{% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
+{% endblock %}
+{% block content%}
+<div class="container mt-5">
+    <div class="alert alert-danger" role="alert">
+        Page available only to website administrator.
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in values %}
+            <tr>
+                <th scope="row">{{ item.id }}</th>
+                <td>{{ item.name }}</td>
+                <td>{{ item.category }}</td>
+                <td><img src="../{{ item.image_url }}" class="img-thumbnail img-fluid" alt="{{ item.name }}"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
