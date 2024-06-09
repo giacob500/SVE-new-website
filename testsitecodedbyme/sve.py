@@ -66,13 +66,21 @@ def contacts():
 def history():
     return render_template("history.html")
 
-# Page accessible only to website admins (currently just lorenzi@lorenzi.net) to check all users currently registered on website
+# Pages accessible only to website admins (currently just lorenzi@lorenzi.net) to check all users currently registered on website
 @app.route("/admin")
 def adminview():
     if "email" in session and session["email"] == "lorenzi@lorenzi.net":
         return render_template("admin_view.html", values=Users.query.all())
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
+
+@app.route("/inventory")
+def inventory():
+    if "email" in session and session["email"] == "lorenzi@lorenzi.net":
+        return render_template("inventory.html", values=Products.query.all())
+    flash("Please log-in to access this page", "info")
+    return redirect(url_for("login"))
+
 
 # Website homepage
 @app.route("/homepage")
