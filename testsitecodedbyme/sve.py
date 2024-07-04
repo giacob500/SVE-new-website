@@ -73,10 +73,16 @@ def adminview():
         return render_template("admin_view.html", values=Users.query.all())
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
-
-@app.route("/inventory")
+    
+@app.route("/inventory", methods=['GET', 'POST'])
 def inventory():
     if "email" in session and session["email"] == "lorenzi@lorenzi.net":
+        if request.method == 'POST':
+            uploaded_file = request.files['file']
+            if uploaded_file.filename != '':
+                uploaded_file.save(uploaded_file.filename)
+            return redirect(url_for("inventory"))
+
         return render_template("inventory.html", values=Products.query.all())
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
@@ -289,4 +295,4 @@ def logout():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run()
