@@ -1,4 +1,5 @@
-from flask import Flask, flash, redirect, url_for, render_template, request, session
+import os
+from flask import Flask, flash, redirect, url_for, render_template, request, session, abort
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -40,6 +41,7 @@ class Products(db.Model):
 def invalid_route(e):
     return render_template("error.html", error_message="The source you are looking forward does not exist. Please return to the homepage."), 404
 
+""" # Enable debugger on browser in development
 # Error handler for all server errors (5xx)
 @app.errorhandler(500)
 def internal_server_error(e):
@@ -49,7 +51,7 @@ def internal_server_error(e):
 # Error handler for all other errors
 @app.errorhandler(Exception)
 def handle_all_errors(e):
-    return render_template('error.html', error_message='An unexpected error occurred'), 500
+    return render_template('error.html', error_message='An unexpected error occurred'), 500 """
 
 
 #---- ROUTING AND PAGES ----
@@ -79,9 +81,14 @@ def inventory():
     if "email" in session and session["email"] == "lorenzi@lorenzi.net":
         if request.method == 'POST':
             uploaded_file = request.files['file']
-            if uploaded_file.filename != '':
-                uploaded_file.save(uploaded_file.filename)
+            filename = uploaded_file.filename
+            if filename != '':
+                file_ext = os.path.splitext(filename)[1]
+                if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+                    abort(400)
+                uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
             return redirect(url_for("inventory"))
+
 
         return render_template("inventory.html", values=Products.query.all())
     flash("Please log-in to access this page", "info")
