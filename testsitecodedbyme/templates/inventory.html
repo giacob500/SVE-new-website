@@ -18,7 +18,7 @@
     </div>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-outline-primary mt-3 mb-3" data-bs-toggle="modal"
-        data-bs-target="#exampleModal">
+        data-bs-target="#modal">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
             viewBox="0 0 16 16">
             <path fill-rule="evenodd"
@@ -27,13 +27,13 @@
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form method="POST" action="" enctype="multipart/form-data">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Insert New Product to Catalogue</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="modalLabel">Insert New Product to Catalogue</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
 
@@ -44,7 +44,7 @@
                             placeholder="e.g. 'cal001'" required>
 
                         <label for="inputCategory" class="form-label">Category</label>
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select" name="product_category">
                             <option value="marble" selected>marble</option>
                             <option value="marble_hearts">marble_hearts</option>
                             <option value="terracotta">terracotta</option>

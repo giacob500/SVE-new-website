@@ -86,7 +86,13 @@ def inventory():
                 file_ext = os.path.splitext(filename)[1]
                 if file_ext not in app.config['UPLOAD_EXTENSIONS']:
                     abort(400)
-                uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+                # Upload image in correct folder based on product category
+
+                product_category = request.form["product_category"]
+                retrived_category = Products.query.filter_by(category=product_category).first()
+                temporary_path = app.config['UPLOAD_PATH'] + "/" + retrived_category.category
+                print(temporary_path)
+                uploaded_file.save(os.path.join(temporary_path, filename))
             return redirect(url_for("inventory"))
 
 
