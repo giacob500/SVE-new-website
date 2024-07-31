@@ -40,7 +40,7 @@
 
 
                         <label for="inputName" class="form-label">Name</label>
-                        <input type="name" class="form-control" id="inputName" name="name"
+                        <input type="name" class="form-control" id="inputName" name="product_name"
                             placeholder="e.g. 'cal001'" required>
 
                         <label for="inputCategory" class="form-label">Category</label>
@@ -103,7 +103,7 @@
                             </svg></button>
                     </form>
 
-                    <form onsubmit="return showConfirmation('Are you sure?')" action="/inventory" method="post">
+                    <form onsubmit="return showConfirmation('Are you sure you want to delete this product?')" action="/inventory" method="post">
                         <input type="hidden" name="remove" value="{{ item.id }}-{{ item.name }}">
                         <button type="submit" class="btn btn-outline-danger">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
