@@ -85,14 +85,29 @@ def inventory():
             if filename != '':
                 file_ext = os.path.splitext(filename)[1]
                 if file_ext not in app.config['UPLOAD_EXTENSIONS']:
-                    abort(400)
-                # Upload image in correct folder based on product category
-
+                    flash("You attempted to insert a non compatible file. Please upload a JPEG or PNG file", "info")
+                    return redirect(url_for("inventory"))
+                # Check if product is already existing before adding it
                 product_category = request.form["product_category"]
-                retrived_category = Products.query.filter_by(category=product_category).first()
-                temporary_path = app.config['UPLOAD_PATH'] + "/" + retrived_category.category
-                print(temporary_path)
-                uploaded_file.save(os.path.join(temporary_path, filename))
+                product_name = request.form["product_name"]
+
+                check = Products.query.filter_by(name=product_name, category=product_category).first()
+                if check is None:
+                    # Upload image in correct folder based on product category
+                    retrived_category = Products.query.filter_by(category=product_category).first()
+                    temporary_path = app.config['UPLOAD_PATH'] + "/" + retrived_category.category
+                    print(temporary_path)
+                    uploaded_file.save(os.path.join(temporary_path, filename))
+                    
+                    new_product = Products(name=product_name, category=product_category, image_url=temporary_path + "/" + filename)
+                    db.session.add(new_product)
+                    db.session.commit()
+                    
+                else:
+                    # redirect user with message "You attempted to insert a product that already exists!!"
+                    flash("You attempted to insert a product that already exist", "info")
+                    return redirect(url_for("inventory"))
+                
             return redirect(url_for("inventory"))
 
 
