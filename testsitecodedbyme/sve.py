@@ -12,6 +12,7 @@ all_products = [f"Product {i}" for i in range(1, 119)]  # 100 dummy products
 #---- APP CONFIGURATION ----
 
 app.config.from_pyfile('etc/defaults.cfg')
+
 app.permanent_session_lifetime = timedelta(minutes=15)
 
 db = SQLAlchemy(app)
@@ -80,33 +81,43 @@ def adminview():
 def inventory():
     if "email" in session and session["email"] == "lorenzi@lorenzi.net":
         if request.method == 'POST':
-            uploaded_file = request.files['file']
-            filename = uploaded_file.filename
-            if filename != '':
-                file_ext = os.path.splitext(filename)[1]
-                if file_ext not in app.config['UPLOAD_EXTENSIONS']:
-                    flash("You attempted to insert a non compatible file. Please upload a JPEG or PNG file", "info")
-                    return redirect(url_for("inventory"))
-                # Check if product is already existing before adding it
-                product_category = request.form["product_category"]
-                product_name = request.form["product_name"]
-
-                check = Products.query.filter_by(name=product_name, category=product_category).first()
-                if check is None:
-                    # Upload image in correct folder based on product category
-                    retrived_category = Products.query.filter_by(category=product_category).first()
-                    temporary_path = app.config['UPLOAD_PATH'] + "/" + retrived_category.category
-                    print(temporary_path)
-                    uploaded_file.save(os.path.join(temporary_path, filename))
-                    
-                    new_product = Products(name=product_name, category=product_category, image_url=temporary_path + "/" + filename)
-                    db.session.add(new_product)
+            product_name = request.form["product_name"]
+            if 'product_id' in request.form:
+                product_id = request.form["product_id"]
+                product_to_delete = Products.query.filter_by(id=product_id, name=product_name).first()
+                if product_to_delete:
+                    # Delete the product from db
+                    db.session.delete(product_to_delete)
                     db.session.commit()
-                    
+                    # Delete the product from filesystem
+                    os.remove(request.form["product_image_url"])
+                    flash(f"'{product_name}' deleted successfully", "success")
                 else:
-                    # redirect user with message "You attempted to insert a product that already exists!!"
-                    flash("You attempted to insert a product that already exist", "info")
-                    return redirect(url_for("inventory"))
+                    flash('Product to delete not found', 'error')
+            else:
+                uploaded_file = request.files['file']
+                filename = uploaded_file.filename
+                if filename != '':
+                    file_ext = os.path.splitext(filename)[1]
+                    if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+                        flash("You attempted to insert a non compatible file. Please upload a JPEG or PNG file", "info")
+                        return redirect(url_for("inventory"))
+                    # Check if product is already existing before adding it
+                    product_category = request.form["product_category"]
+                    
+                    check = Products.query.filter_by(name=product_name, category=product_category).first()
+                    if check is None:
+                        # Upload image in correct folder based on product category
+                        retrived_category = Products.query.filter_by(category=product_category).first()
+                        temporary_path = app.config['UPLOAD_PATH'] + "/" + retrived_category.category
+                        uploaded_file.save(os.path.join(temporary_path, filename))
+                        
+                        new_product = Products(name=product_name, category=product_category, image_url=temporary_path + "/" + filename)
+                        db.session.add(new_product)
+                        db.session.commit()
+                        flash(f"'{product_name}' added successfully", "success")
+                    else:
+                        flash("You attempted to insert a product that already exist", "error")
                 
             return redirect(url_for("inventory"))
 
