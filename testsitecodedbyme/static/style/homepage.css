@@ -65,14 +65,17 @@
 }
 
 .wsite-background {
-  display: table;
-  width: 100%;
   background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../imgs/bg/homepage_banner.jpg');
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
-  height: 350px;
   color: white;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bg-marble {

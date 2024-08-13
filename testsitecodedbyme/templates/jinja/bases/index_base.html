@@ -2,19 +2,20 @@
 <html lang="en">
 
 <head>
-    {% include "jinja/headers.html" %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/homepage.css') }}" />
-    <title>{% block tab_title %}{% endblock %}</title>
+  {% include "jinja/headers.html" %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/homepage.css') }}" />
+  <title>{% block tab_title %}{% endblock %}</title>
 </head>
 
 <body>
-    <nav class="site-header sticky-top py-1">
-        <div class="container d-flex flex-column flex-md-row justify-content-between">
-            <a class="py-2" href="/">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="24" viewBox="0 0 215.000000 95.000000"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
-                <g transform="translate(0.000000,95.000000) scale(0.100000,-0.100000)" stroke="currentColor" fill="currentColor">
-                <path d="M695 820 c-3 -5 -31 -8 -61 -7 l-56 3 4 -60 c2 -48 0 -61 -12 -64
+  <nav class="site-header sticky-top py-1">
+    <div class="container d-flex flex-column flex-md-row justify-content-between">
+      <a class="py-2" href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="24" viewBox="0 0 215.000000 95.000000"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
+          <g transform="translate(0.000000,95.000000) scale(0.100000,-0.100000)" stroke="currentColor"
+            fill="currentColor">
+            <path d="M695 820 c-3 -5 -31 -8 -61 -7 l-56 3 4 -60 c2 -48 0 -61 -12 -64
                 -10 -2 -20 10 -28 32 -7 19 -26 46 -43 60 -101 85 -262 -4 -218 -121 15 -42
                 55 -79 144 -138 98 -64 139 -107 160 -164 27 -76 14 -149 -37 -206 l-30 -35
                 71 0 c75 0 124 16 135 45 3 9 6 156 6 326 0 327 2 337 45 289 15 -17 191 -435
@@ -22,72 +23,41 @@
                 14 -44 14 -316 -1 -361 -3 -354 76 -354 74 0 74 1 74 338 0 174 -4 301 -10
                 312 -6 11 -26 21 -50 25 -22 4 -42 11 -46 16 -7 12 -234 12 -234 -1 0 -5 15
                 -12 34 -16 19 -3 37 -11 39 -18 7 -18 -203 -528 -220 -533 -9 -3 -198 460
-                -209 513 -6 30 -4 32 30 38 20 4 36 11 36 16 0 13 -257 13 -265 0z"/>
-                <path d="M90 807 c-14 -7 -33 -28 -42 -47 -16 -31 -18 -68 -18 -308 l0 -274
+                -209 513 -6 30 -4 32 30 38 20 4 36 11 36 16 0 13 -257 13 -265 0z" />
+            <path d="M90 807 c-14 -7 -33 -28 -42 -47 -16 -31 -18 -68 -18 -308 l0 -274
                 29 -29 c24 -23 38 -29 74 -29 l44 0 -13 58 c-8 31 -14 69 -14 85 0 43 27 33
                 50 -20 27 -62 53 -89 106 -109 52 -20 115 -14 153 14 34 25 56 87 47 134 -9
                 51 -37 81 -135 147 -100 68 -144 111 -165 163 -29 68 -14 152 36 205 l21 23
-                -74 0 c-41 0 -85 -6 -99 -13z"/>
-                <path d="M2014 803 c2 -10 6 -40 8 -67 4 -66 -16 -72 -41 -13 -27 63 -47 71
+                -74 0 c-41 0 -85 -6 -99 -13z" />
+            <path d="M2014 803 c2 -10 6 -40 8 -67 4 -66 -16 -72 -41 -13 -27 63 -47 71
                 -176 71 l-110 1 -3 -143 -3 -143 103 3 103 3 13 43 c8 23 20 42 28 42 11 0 14
                 -24 14 -120 0 -99 -3 -120 -15 -120 -8 0 -19 16 -25 40 -6 22 -20 44 -30 50
                 -11 6 -57 9 -103 8 l-82 -3 -3 -110 c-5 -197 2 -207 157 -207 119 0 145 10
                 186 74 28 44 48 58 58 40 3 -4 -3 -34 -14 -67 -10 -32 -16 -61 -13 -64 2 -3
-                17 5 32 16 l27 20 3 311 2 310 -26 21 c-34 27 -98 29 -90 4z"/>
-                </g>
-                </svg>
-            </a>
-            <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/#explore">Explore</a>
-            <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/history">History</a>
-            <a class="py-2 d-none d-md-inline-block text-decoration-none" href="../static/docs/SVEpricelistJan2024.pdf" target="_blank">Pricing</a>
-            <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
-            {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
-        </div>
-    </nav>
-    <div class="wsite-background wsite-custom-background position-relative overflow-hidden text-center">
-        <div class="col-md-5 p-lg-5 mx-auto my-5">
-            <h1 class="display-4 font-weight-normal">{% block homepage_title %}{% endblock %}</h1>
-            <p class="lead font-weight-normal">{% block homepage_subtitle %}{% endblock %}</p>
-            <a href="/categories" class="btn btn-outline-light btn-lg mb-3">Enter</a>
-        </div>
+                17 5 32 16 l27 20 3 311 2 310 -26 21 c-34 27 -98 29 -90 4z" />
+          </g>
+        </svg>
+      </a>
+      <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/#explore">Explore</a>
+      <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/history">History</a>
+      <a class="py-2 d-none d-md-inline-block text-decoration-none" href="../static/docs/SVEpricelistJan2024.pdf"
+        target="_blank">Pricing</a>
+      <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
+      {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif
+      %}
     </div>
-
-    <div id="explore" class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
-        <div class="bg-marble mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-          <div class="my-3 py-3">
-            <h2 class="display-5">Marble</h2>
-            <p class="lead">Italian marble. Durable and beautiful.</p>
-          </div>
-          <img src="../static/imgs/homepage/marble.png" alt="Image" class="img-fluid mx-auto d-block" style="width: 80%; height: 300px; object-fit: cover; object-position: top;" />
-        </div>
-        <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-          <div class="my-3 p-3">
-            <h2 class="display-5">Terarcotta</h2>
-            <p class="lead">Warm Terracotta. Breathtaking colours.</p>
-          </div>
-          <img src="../static/imgs/homepage/terracotta.png" alt="Image" class="img-fluid mx-auto d-block" style="width: 80%; height: 300px; object-fit: cover; object-position: top;" />
-        </div>
-      </div>
-
-      <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
-        <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-          <div class="my-3 p-3">
-            <h2 class="display-5">Slate</h2>
-            <p class="lead">Raw Slate into a new concept of decoration.</p>
-          </div>
-          <img src="../static/imgs/homepage/slate.png" alt="Image" class="img-fluid mx-auto d-block" style="width: 80%; height: 300px; object-fit: cover; object-position: top;" />
-        </div>
-        <div class="bg-accessories mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-          <div class="my-3 py-3">
-            <h2 class="display-5">Acccessories</h2>
-            <p class="lead">Custom-made products. Unleash your imagination.</p>
-          </div>
-          <img src="../static/imgs/homepage/book.png" alt="Image" class="img-fluid mx-auto d-block" style="width: 80%; height: 300px; object-fit: cover; object-position: top;" />
-        </div>
-      </div>
+  </nav>
+  <div class="wsite-background wsite-custom-background position-relative overflow-hidden text-center full-screen">
+    <div class="col-md-5 p-lg-1">
+      <h1 class="display-4 font-weight-normal">{% block homepage_title %}{% endblock %}</h1>
+      <p class="lead font-weight-normal">{% block homepage_subtitle %}{% endblock %}</p>
+      <a href="/categories" class="btn btn-outline-light btn-lg mb-3">Enter</a>
     </div>
-    {% include "jinja/footer_content.html" %}
-    {% include "jinja/bootstrap_js.html" %}
+  </div>
+
+
+  {% include "jinja/footer_content.html" %}
+  {% include "jinja/bootstrap_js.html" %}
 </body>
 
 </html>
