@@ -61,12 +61,11 @@
 /* My CSS */
 
 .wsite-background.wsite-custom-background {
-  background-size: 110% !important;
+  background-size: cover !important;
 }
 
 .wsite-background {
   background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../imgs/bg/homepage_banner.jpg');
-  background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
   color: white;
@@ -84,4 +83,17 @@
 
 .bg-accessories {
   background-color: #3b1a07;
+}
+
+.subtitle{
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
 }
