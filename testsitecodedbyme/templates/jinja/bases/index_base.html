@@ -48,14 +48,14 @@
     </div>
   </nav>
   <div class="wsite-background wsite-custom-background position-relative overflow-hidden text-center full-screen">
-    <div class="col-md-5 p-lg-1">
+    <div class="col-md-7 p-lg-1">
       <h1 class="display-4 font-weight-normal">{% block homepage_title %}{% endblock %}</h1>
-      <p class="lead font-weight-normal">{% block homepage_subtitle %}{% endblock %}</p>
-      <a href="/categories" class="btn btn-outline-light btn-lg mb-3">Enter</a>
+      <div id="text" class="lead font-weight-normal subtitle">{% block homepage_subtitle %}{% endblock %}</div>
+      <a href="/categories" class="btn btn-outline-light btn-lg mt-3 mb-3">Enter</a>
     </div>
   </div>
 
-
+  <script src="{{ url_for('static', filename='scripts/homepage.js') }}"></script>
   {% include "jinja/footer_content.html" %}
   {% include "jinja/bootstrap_js.html" %}
 </body>
