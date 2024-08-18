@@ -3,9 +3,9 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/product.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />
 <style>
+    /* These blocks of code have been added here because include a Jinja2 variable*/
     .table-with-contained-bg {
         background-image: url('{{ chosen_product_url }}');
-        /* This block of code has been added here because includes a Jinja2 variable*/
         background-size: contain;
         background-position: center center;
         background-repeat: no-repeat;
@@ -15,7 +15,6 @@
 
     .table-with-bg {
         background-image: url('{{ chosen_product_url }}');
-        /* This block of code has been added here because includes a Jinja2 variable*/
         background-size: cover;
         background-repeat: no-repeat;
         width: 300px;
@@ -84,8 +83,8 @@
                             <td>Tile B</td>
                         </tr>
                         <tr>
-                            <td>Tile C</td>
                             <td>Tile D</td>
+                            <td>Tile C</td>
                         </tr>
                     </table>
             </div>

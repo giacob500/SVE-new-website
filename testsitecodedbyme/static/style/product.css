@@ -17,13 +17,13 @@ table {
   }
   
   table td:hover {
-    background-color: lightblue;
+    background-color: rgb(123, 220, 252);
     opacity: 25%;
   }
   
   table td.selected {
-    background-color: #3b83ff;
-    opacity: 75%;
+    background-color: #4a4a4a;
+    opacity: 65%;
     color: white;
     text-shadow: 5px 5px 10px black;
   }
