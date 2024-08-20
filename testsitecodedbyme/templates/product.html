@@ -26,8 +26,7 @@
 {% block header_conent%}
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/#explore">Explore</a>
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/history">History</a>
-<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/pricing"
-    target="_blank">Pricing</a>
+<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/pricing" target="_blank">Pricing</a>
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
 {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
 {% endblock %}
@@ -61,15 +60,32 @@
             <label for="product_type">Choose product type:</label>
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <select class="form-control" id="product_type" name="product_type">
-                        <option value="Coasters">Coasters - 4x4 tumbled marble, cork back</option>
-                        <option value="WineStopper">Wine Stopper - 2x2 tumbled marble with metal base</option>
-                        <option value="Magnet">Magnet - 2x2 tumbled marble</option>
-                        <option value="Ornament">Ornament - 2x2 tumbled marble</option>
-                        <option value="RustHook">Rust Hook - 4x4 tumbled marble with metal hook</option>
-                        <option value="WallTrivet">Wall Trivet - 8x8 tumbled marble with Masonite back</option>
-                        <option value="TrivetWithCork">Trivet with cork - 8x8 tumbled marble with cork back</option>
-                    </select>
+                    {% if chosen_product_category == "terracotta" %}
+                    <select class="form-control" id="product_type" name="product_type" onchange="showOptions()">
+                        <option value="Coasters 10x10 cm">Coasters - 10x10 cm</option>
+                        <option value="Coasters 15x15 cm">Coasters - 15x15 cm</option>
+                        <option value="Magnet">Magnet - 5x5</option>
+                        {% else %}
+                        <select class="form-control" id="product_type" name="product_type">
+                            <option value="Coasters">Coasters - 4x4 tumbled marble, cork back</option>
+                            <option value="WineStopper">Wine Stopper - 2x2 tumbled marble with metal base</option>
+                            <option value="Magnet">Magnet - 2x2 tumbled marble</option>
+                            <option value="Ornament">Ornament - 2x2 tumbled marble</option>
+                            <option value="RustHook">Rust Hook - 4x4 tumbled marble with metal hook</option>
+                            <option value="WallTrivet">Wall Trivet - 8x8 tumbled marble with Masonite back</option>
+                            <option value="TrivetWithCork">Trivet with cork - 8x8 tumbled marble with cork back</option>
+                            {% endif %}
+                        </select>
+                        {% if chosen_product_category == "terracotta" %}
+                        <div class="form-group mt-3" id="additional_options" style="display:block;">
+                            <label for="additional_feature">Backing style:</label>
+                            <select class="form-control" id="additional_feature" name="additional_feature">
+                                <option value="hole backing">Hole</option>
+                                <option value="cork backing">Backing in cork</option>
+                                <option value="wood backing">Backing in wood</option>
+                            </select>
+                        </div>
+                        {% endif %}
                 </div>
             </div>
             {% endif %}
@@ -112,7 +128,7 @@
             <div class="d-flex justify-content-center mt-3">
                 <input class="btn btn-dark" type="submit" value="Add to basket">
             </div>
-        </form>
+        </form></div></div>
         <form action="/collections" method="post">
             <div class="text-center mt-2">
                 <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
@@ -121,5 +137,6 @@
         </form>
         {% endblock %}
         {% block javascript %}
+        <script src="{{ url_for('static', filename='scripts/conditional_menu.js') }}"></script>
         <script src="{{ url_for('static', filename='scripts/tilesgrid_script.js') }}"></script>
         {% endblock %}

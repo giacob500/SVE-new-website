@@ -157,17 +157,21 @@ def categories():
         # Store the data in the session
         product_data = {
                 "product_name": product_name,
-                "product_quantity": product_quantity
+                "product_quantity": product_quantity,
             }
         if "selected_tiles" in request.form:
             product_data.update({
-                "selected_tiles": request.form["selected_tiles"]
+                "selected_tiles": request.form["selected_tiles"],
             })
         if "product_counter" in request.form and "product_type" in request.form:
             product_data.update({
                 "selected_tiles": selected_tiles,
                 "product_type": product_type,
                 "product_counter": product_counter,
+            })
+            if "additional_feature" in request.form:
+                product_data.update({
+                "product_type": product_type + " + " + request.form["additional_feature"],
             })
         else:
             product_data.update({
