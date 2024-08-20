@@ -32,6 +32,7 @@
                     {% elif chosen_category == "terracotta" %} Terracotta
                     {% elif chosen_category == "terracotta_3d" %} Plaster
                     {% elif chosen_category == "books" %} 3D Books
+                    {% elif chosen_category == "personalized" %} Personalized product
                     {% else %}{{ chosen_category }}
                     {% endif %}
                 </h1>
@@ -41,7 +42,16 @@
             <!-- Empty div necessary for page title layout -->
         </div>
     </div>
-
+    {% if chosen_category == "personalized" %}
+    <form id="emailForm" method="POST" action="" enctype="multipart/form-data">
+            <h5>Request a personalized product</h5>
+            <label for="input_file" class="form-label">Upload image</label>
+            <p><input type="file" id="input_file" name="input_file" accept=".jpg,.jpeg,.png" required></p>
+            <label for="comments" class="form-label">Decription - How do you want us to utilize your image?</label>
+            <textarea class="form-control" id="comments" name="comments"></textarea>      
+            <input type="submit" class="btn btn-primary" value="Compose Email">
+    </form>
+    {% else %}
     {% if products|length == 0 %}
     <div class="text-center">
         <p>No {{ chosen_category }} products available at the moment. More products will arrive soon!</p>
@@ -172,5 +182,9 @@
         </nav>
         {% endif %}
     </div>
+    {% endif %}
 </div>
+{% endblock %}
+{% block javascript %}
+<script src="{{ url_for('static', filename='scripts/personalized_product_script.js') }}"></script>
 {% endblock %}
