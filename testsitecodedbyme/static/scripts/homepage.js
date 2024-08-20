@@ -34,4 +34,4 @@ function changeText() {
 }
 
 // Start the transition after 3 seconds
-setTimeout(changeText, 2000);
+setTimeout(changeText, 3000);
