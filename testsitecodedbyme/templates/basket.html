@@ -38,7 +38,7 @@
                         <td>
                             <form action="/basket" method="post">
                                 <input type="hidden" name="remove"
-                                    value="{{ item.product_name }}-{{ item.product_type }}-{{ item.product_counter }}-{{ item.selected_tiles }}-{{ item.product_quantity }}">
+                                    value="{{ item.product_name }}; {{ item.product_type }}; {{ item.product_counter }}; {{ item.selected_tiles }}; {{ item.product_quantity }}">
                                 <button type="submit" class="btn btn-link">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red"
                                         class="bi bi-trash" viewBox="0 0 16 16">

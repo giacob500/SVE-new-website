@@ -177,6 +177,7 @@ def categories():
             product_data.update({
                 "product_type": "N/A",
                 "product_counter": "N/A",
+                "selected_tiles": "N/A",
             })
         
         # Check if the "product_data" list is already in the session, if not, initialize it
@@ -250,7 +251,7 @@ def basket():
             #Delete single element from basket
             elif "remove" in request.form:
                 to_remove = request.form["remove"]
-                substrings = to_remove.split("-")
+                substrings = to_remove.split("; ")
                 matching_item = None
                 for item in session.get("basket_data", []):
                     if (
@@ -262,6 +263,11 @@ def basket():
                     ):
                         matching_item = item
                         break
+
+                print(matching_item)
+                for item in session.get("basket_data", []):
+                    print(item)
+
                 if matching_item:
                     session["basket_data"].remove(matching_item)
             return redirect(url_for("basket"))
