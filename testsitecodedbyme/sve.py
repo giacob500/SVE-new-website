@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, redirect, url_for, render_template, request, session, abort
+from flask import Flask, flash, redirect, url_for, render_template, send_file, request, session, abort
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -188,7 +188,9 @@ def categories():
     if "email" in session:
         return render_template("categories.html", username=session["email"])
     else:
-        return render_template("categories.html")
+        # reindirizza al login
+        # return render_template("categories.html")
+        return redirect(url_for("user"))
 
 @app.route("/collections", methods=["POST", "GET"])
 def collections():
@@ -231,6 +233,7 @@ def product():
             return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category, username=session["email"])
         else:
             return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category)
+    return redirect(url_for("user"))
         
 
 @app.route("/basket", methods=["POST", "GET"])
@@ -332,6 +335,16 @@ def logout():
     session.pop("basket_data", None)
     return redirect(url_for("home"))
 
+@app.route("/pricing")
+def pricing():
+    if "email" in session: 
+        try:
+            # Path to the PDF you want to serve
+            return send_file('static/docs/SVEpricelistJan2024.pdf', as_attachment=False)
+        except Exception as e:
+            abort(404)  # If the file is not found, return 404 error
+    else:
+        return redirect(url_for("user"))
 
 
 if __name__ == "__main__":
