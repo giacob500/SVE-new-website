@@ -66,7 +66,11 @@
                         <option value="Coasters 15x15 cm">Coasters - 15x15 cm</option>
                         <option value="Magnet">Magnet - 5x5</option>
                         {% else %}
-                        <select class="form-control" id="product_type" name="product_type">
+                        {% if chosen_product_category == "marble" %}
+                        <select class="form-control" id="product_type" name="product_type" onchange="updateProductImage()">
+                            {% else %}
+                            <select class="form-control" id="product_type" name="product_type">
+                            {% endif %}
                             <option value="Coasters">Coasters - 4x4 tumbled marble, cork back</option>
                             <option value="WineStopper">Wine Stopper - 2x2 tumbled marble with metal base</option>
                             <option value="Magnet">Magnet - 2x2 tumbled marble</option>
@@ -76,6 +80,11 @@
                             <option value="TrivetWithCork">Trivet with cork - 8x8 tumbled marble with cork back</option>
                             {% endif %}
                         </select>
+
+                        {% if chosen_product_category == "marble" %}
+                        <img id="product_image" src="/static/images/default_image.jpg" alt="Product Image" class="img-fluid mt-3" style="display: none;">
+                        {% endif %}
+
                         {% if chosen_product_category == "terracotta" %}
                         <div class="form-group mt-3" id="additional_options" style="display:block;">
                             <label for="additional_feature">Backing style:</label>
