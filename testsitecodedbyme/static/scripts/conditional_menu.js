@@ -17,12 +17,12 @@ function updateProductImage() {
     
     // Define the image source based on the selected product type
     var imageMap = {
-        "WineStopper": "static/imgs/product_types/bookend10x10x10cm.JPG",
-        "Magnet": "static/imgs/product_types/magnet_image.jpg",
-        "Ornament": "static/imgs/product_types/ornament_image.jpg",
-        "RustHook": "static/imgs/product_types/rust_hook_image.jpg",
-        "WallTrivet": "static/imgs/product_types/wall_trivet_image.jpg",
-        "TrivetWithCork": "static/imgs/product_types/trivet_with_cork_image.jpg"
+        "WineStopper": "static/imgs/product_types/bookend10x10x10cm.jpg",
+        "Magnet": "static/imgs/product_types/magnet.jpg",
+        "Paperweight": "static/imgs/product_types/paperweight.jpg",
+        "RustHook": "static/imgs/product_types/hook.jpg",
+        "TripleHook": "static/imgs/product_types/triple_hook.jpg",
+        "PotSticker": "static/imgs/product_types/pot_sticker.jpg"
     };
 
     // Get the image element
