@@ -57,3 +57,7 @@
 .wood-button {
   background-image: url('../imgs/textures/wood.jpg');
 }
+
+.personalized-button {
+  background-image: url('../imgs/textures/personalized.png');
+}
