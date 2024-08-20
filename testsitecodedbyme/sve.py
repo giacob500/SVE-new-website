@@ -157,9 +157,12 @@ def categories():
         # Store the data in the session
         product_data = {
                 "product_name": product_name,
-                
                 "product_quantity": product_quantity
             }
+        if "selected_tiles" in request.form:
+            product_data.update({
+                "selected_tiles": request.form["selected_tiles"]
+            })
         if "product_counter" in request.form and "product_type" in request.form:
             product_data.update({
                 "selected_tiles": selected_tiles,
@@ -168,10 +171,10 @@ def categories():
             })
         else:
             product_data.update({
-                "selected_tiles": "",
                 "product_type": "N/A",
                 "product_counter": "N/A",
             })
+        
         # Check if the "product_data" list is already in the session, if not, initialize it
         if "basket_data" not in session:
             session["basket_data"] = []
