@@ -53,7 +53,7 @@
     </div>
     <div class="text-center">
         <form class="form-group" action="/categories" method="post">
-            {% if chosen_product_category == "marble_hearts" or chosen_product_category == "books" %}
+            {% if chosen_product_category == "marble_hearts" or chosen_product_category == "books" or chosen_product_category == "terracotta_3d"%}
             <img src="{{ chosen_product_url }}" class="img-fluid" width="500" alt="product image">
             {% else %}
             {% if chosen_product_category != "slate" %}
@@ -71,13 +71,13 @@
                             {% else %}
                             <select class="form-control" id="product_type" name="product_type">
                             {% endif %}
-                            <option value="Coasters">Coasters - 4x4 tumbled marble, cork back</option>
-                            <option value="WineStopper">Wine Stopper - 2x2 tumbled marble with metal base</option>
-                            <option value="Magnet">Magnet - 2x2 tumbled marble</option>
-                            <option value="Ornament">Ornament - 2x2 tumbled marble</option>
-                            <option value="RustHook">Rust Hook - 4x4 tumbled marble with metal hook</option>
-                            <option value="WallTrivet">Wall Trivet - 8x8 tumbled marble with Masonite back</option>
-                            <option value="TrivetWithCork">Trivet with cork - 8x8 tumbled marble with cork back</option>
+                            <option value="Coasters">Coasters - 10x10 cm tumbled marble, cork back</option>
+                            <option value="WineStopper">Wine Stopper - 5x5 cm tumbled marble with metal base</option>
+                            <option value="Magnet">Magnet - 5x5 cm tumbled marble</option>
+                            <option value="Paperweight">Paperweight - 5x5x5 cm tumbled marble cube</option>
+                            <option value="RustHook">Rust Hook - 10x10 cm tumbled marble with metal hook</option>
+                            <option value="TripleHook">Triple Hook - Bigger tumbled marble with metal hook</option>
+                            <option value="PotSticker">Pot Sticker - 5x5 cm tumbled marble with long metal pin</option>
                             {% endif %}
                         </select>
 
@@ -97,6 +97,9 @@
                         {% endif %}
                 </div>
             </div>
+            {% endif %}
+            {% if chosen_product_category == "marble" %}
+            <label class="pt-3">Now choose which picture you want on it:</label>
             {% endif %}
             <br>
             <div class="d-flex justify-content-center mt-3">
