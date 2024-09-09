@@ -42,7 +42,7 @@ class Products(db.Model):
 def invalid_route(e):
     return render_template("error.html", error_message="The source you are looking forward does not exist. Please return to the homepage."), 404
 
-""" # Enable debugger on browser in development
+# Enable debugger on browser in development
 # Error handler for all server errors (5xx)
 @app.errorhandler(500)
 def internal_server_error(e):
@@ -52,7 +52,7 @@ def internal_server_error(e):
 # Error handler for all other errors
 @app.errorhandler(Exception)
 def handle_all_errors(e):
-    return render_template('error.html', error_message='An unexpected error occurred'), 500 """
+    return render_template('error.html', error_message='An unexpected error occurred'), 500
 
 
 #---- ROUTING AND PAGES ----
