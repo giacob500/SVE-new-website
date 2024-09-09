@@ -49,6 +49,20 @@
     {% else %}
     <div class="text-center">
         {% if pagination is defined and pagination.pages > 1 %}
+        
+        <!-- Items per page -->
+        <div class="dropdown mb-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Items per page
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="ItemsPerPageDropdown">
+              <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=9) }}">9</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=27) }}">27</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=54) }}">54</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=108) }}">108</a></li>
+            </ul>
+          </div>
+
         <nav>
             <ul class="pagination justify-content-center">
                 {% if pagination.has_prev == True %}
