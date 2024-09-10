@@ -34,7 +34,7 @@ class Products(db.Model):
     name = db.Column(db.String(255))
     category = db.Column(db.String(255))
     image_url = db.Column(db.String(255))
-""" 
+ 
 #---- ERROR HANDLING ----
 
 # Error handler for client error 404
@@ -52,7 +52,7 @@ def internal_server_error(e):
 # Error handler for all other errors
 @app.errorhandler(Exception)
 def handle_all_errors(e):
-    return render_template('error.html', error_message='An unexpected error occurred'), 500 """
+    return render_template('error.html', error_message='An unexpected error occurred'), 500
 
 
 #---- ROUTING AND PAGES ----
