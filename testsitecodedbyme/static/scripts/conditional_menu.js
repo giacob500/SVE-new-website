@@ -17,6 +17,7 @@ function updateProductImage() {
     
     // Define the image source based on the selected product type
     var imageMap = {
+        "Coasters": "static/imgs/product_types/coaster.jpg",
         "WineStopper": "static/imgs/product_types/bookend10x10x10cm.jpg",
         "Magnet": "static/imgs/product_types/magnet.jpg",
         "Paperweight": "static/imgs/product_types/paperweight.jpg",
@@ -28,17 +29,13 @@ function updateProductImage() {
     // Get the image element
     var productImage = document.getElementById("product_image");
 
-    // Check if the selected product type is "Coasters"
-    if (selectedProductType === "Coasters") {
-        // Hide the image if "Coasters" is selected
-        productImage.style.display = "none";
+    
+    // Show the image if a different product type is selected
+    if (imageMap[selectedProductType]) {
+        productImage.src = imageMap[selectedProductType];
+        productImage.style.display = "block"; // Make the image visible
     } else {
-        // Show the image if a different product type is selected
-        if (imageMap[selectedProductType]) {
-            productImage.src = imageMap[selectedProductType];
-            productImage.style.display = "block"; // Make the image visible
-        } else {
-            productImage.style.display = "none"; // Hide the image if no matching product type
-        }
+        productImage.style.display = "none"; // Hide the image if no matching product type
     }
+    
 }
