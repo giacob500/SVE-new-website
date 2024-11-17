@@ -5,9 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
-# Dummy data (replace with your actual data)
-all_products = [f"Product {i}" for i in range(1, 119)]  # 100 dummy products
-
 
 #---- APP CONFIGURATION ----
 
@@ -42,7 +39,6 @@ class Products(db.Model):
 def invalid_route(e):
     return render_template("error.html", error_message="The source you are looking forward does not exist. Please return to the homepage."), 404
 
-# Enable debugger on browser in development
 # Error handler for all server errors (5xx)
 @app.errorhandler(500)
 def internal_server_error(e):
@@ -72,14 +68,14 @@ def history():
 # Pages accessible only to website admins (currently just lorenzi@lorenzi.net) to check all users currently registered on website
 @app.route("/admin")
 def adminview():
-    if "email" in session and session["email"] == "lorenzi@lorenzi.net":
+    if "email" in session and session["email"] == app.config['ADMIN_EMAIL']:
         return render_template("admin_view.html", values=Users.query.all())
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
     
 @app.route("/inventory", methods=['GET', 'POST'])
 def inventory():
-    if "email" in session and session["email"] == "lorenzi@lorenzi.net":
+    if "email" in session and session["email"] == app.config['ADMIN_EMAIL']:
         if request.method == 'POST':
             product_name = request.form["product_name"]
             if 'product_id' in request.form:
@@ -125,7 +121,6 @@ def inventory():
         return render_template("inventory.html", values=Products.query.all())
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
-
 
 # Website homepage
 @app.route("/homepage")
@@ -193,8 +188,7 @@ def categories():
     if "email" in session:
         return render_template("categories.html", username=session["email"])
     else:
-        # reindirizza al login
-        # return render_template("categories.html")
+        # Redirect to login
         return redirect(url_for("user"))
 
 @app.route("/collections", methods=["POST", "GET"])
@@ -217,7 +211,6 @@ def collections():
             chosen_category = session["last_category"]
     
     current_page = request.args.get('page', 1, type=int)
-    print(type(session["last_category"]))
     items_per_page = 27
     if "items_per_page" in request.args:
         items_per_page = int(request.args.get("items_per_page"))
@@ -270,10 +263,6 @@ def basket():
                     ):
                         matching_item = item
                         break
-
-                print(matching_item)
-                for item in session.get("basket_data", []):
-                    print(item)
 
                 if matching_item:
                     session["basket_data"].remove(matching_item)
