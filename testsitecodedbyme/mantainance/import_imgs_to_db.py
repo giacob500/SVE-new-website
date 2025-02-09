@@ -1,13 +1,8 @@
-'''
-The code program below is used to convert a series of file directories listed in a TXT (or other formats) file,
-providing in output a CSV file that can be added to the database via "DB Browser for DQL Lite"
-
-'''
 import csv
 import os
 
 def get_category(file_name):
-    # Check if the file name starts with a certain string
+    # Check if the file name starts with 'cu'
     if file_name.startswith('xtcu'):
         return 'terracotta'
     elif file_name.startswith('PLA'):
@@ -35,8 +30,9 @@ def get_image_url(file_path):
     return relative_path
 
 def txt_to_csv(input_file, output_file):
-    # Open the input text file in read mode and read lines from the text file
+    # Open the input text file in read mode
     with open(input_file, 'r') as txt_file:
+        # Read lines from the text file
         lines = txt_file.readlines()
 
     # Open the output CSV file in write mode
@@ -66,8 +62,8 @@ def txt_to_csv(input_file, output_file):
 
 if __name__ == "__main__":
     # Specify the input and output file paths
-    input_file_path = 'input.txt'
-    output_file_path = 'products.csv'
+    input_file_path = 'input.txt'  # Replace with your input file path
+    output_file_path = 'products.csv'  # Replace with your desired output file path
 
     # Call the function to convert text to CSV
     txt_to_csv(input_file_path, output_file_path)
