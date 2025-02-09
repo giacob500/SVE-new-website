@@ -33,10 +33,21 @@ class Products(db.Model):
     units = db.Column(db.Integer)
     price = db.Column(db.Integer)
     date = db.Column(db.String(255))
-    tag  = db.Column(db.String(255))
     image_url = db.Column(db.String(255))
- 
-#---- ERROR HANDLING ----
+    # Add relationship to tags
+    tags = db.relationship('Tags', secondary='product_tags', backref=db.backref('products', lazy='dynamic'))
+
+# Association table for products and tags
+product_tags = db.Table('product_tags',
+    db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True)
+)
+
+class Tags(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+
+""" #---- ERROR HANDLING ----
 
 # Error handler for client error 404
 @app.errorhandler(404)
@@ -53,7 +64,7 @@ def internal_server_error(e):
 @app.errorhandler(Exception)
 def handle_all_errors(e):
     return render_template('error.html', error_message='An unexpected error occurred'), 500
-
+ """
 
 #---- ROUTING AND PAGES ----
 
@@ -240,7 +251,13 @@ def product():
         chosen_product_name = request.form["product_name"]
         chosen_product_category = request.form["product_category"]
         if "email" in session:
-            print(request.form["product_image_url"])
+
+            # Build logic to get product tags and display them
+            product = Products.query.filter_by(name=chosen_product_name).first()
+            if product:
+                product_tags = [tag.name for tag in product.tags]
+                print(f"Tags for product '{chosen_product_name}':", product_tags)
+            
             return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category, username=session["email"])
         else:
             return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category)
