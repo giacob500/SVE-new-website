@@ -30,6 +30,10 @@ class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     category = db.Column(db.String(255))
+    units = db.Column(db.Integer)
+    price = db.Column(db.Integer)
+    date = db.Column(db.String(255))
+    tag  = db.Column(db.String(255))
     image_url = db.Column(db.String(255))
  
 #---- ERROR HANDLING ----
@@ -211,6 +215,7 @@ def collections():
             chosen_category = session["last_category"]
     
     current_page = request.args.get('page', 1, type=int)
+    print(type(session["last_category"]))
     items_per_page = 27
     if "items_per_page" in request.args:
         items_per_page = int(request.args.get("items_per_page"))
@@ -235,6 +240,7 @@ def product():
         chosen_product_name = request.form["product_name"]
         chosen_product_category = request.form["product_category"]
         if "email" in session:
+            print(request.form["product_image_url"])
             return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category, username=session["email"])
         else:
             return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category)
@@ -263,6 +269,10 @@ def basket():
                     ):
                         matching_item = item
                         break
+
+                print(matching_item)
+                for item in session.get("basket_data", []):
+                    print(item)
 
                 if matching_item:
                     session["basket_data"].remove(matching_item)

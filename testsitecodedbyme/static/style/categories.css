@@ -1,4 +1,5 @@
-/* Styles for category buttons on the categories page */
+/* Code below regulates aspect of buttons on categories page */
+
 .btn-block {
   background-size: cover;
   background-repeat: no-repeat;
@@ -29,7 +30,6 @@
   color: white;
 }
 
-/* Background images for each button */
 .marble-button {
   background-image: url('../imgs/textures/marble.jpg');
 }
