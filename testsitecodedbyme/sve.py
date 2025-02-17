@@ -208,9 +208,10 @@ def categories():
 
 @app.route("/collections", methods=["POST", "GET"])
 def collections():
+    chosen_category = session.get("last_category", "marble")
+    
     if request.method == "POST":
         if "product_name" in request.form:
-            # Enter this condition if browsing back from product page
             old_product_name = request.form["product_name"]
             retrived_category = Products.query.filter_by(name=old_product_name).first()
             chosen_category = retrived_category.category
@@ -218,31 +219,25 @@ def collections():
             chosen_category = request.form["category"]
         session["last_category"] = chosen_category
 
-    # Pagination
-    elif request.method == "GET":
-        if "last_category" not in session:
-            chosen_category = "marble"
-        else:
-            chosen_category = session["last_category"]
+    filters = request.args.getlist('filters')
     
     current_page = request.args.get('page', 1, type=int)
-    print(type(session["last_category"]))
-    items_per_page = 27
+    items_per_page = session.get("items_per_page", 27)
     if "items_per_page" in request.args:
         items_per_page = int(request.args.get("items_per_page"))
         session["items_per_page"] = items_per_page
-    else:
-        if "items_per_page" in session:
-            items_per_page = session["items_per_page"]
-    pagination = Products.query.filter_by(category=chosen_category.lower()).paginate(page=current_page, per_page=items_per_page, error_out=False)
+
+    query = Products.query.filter_by(category=chosen_category.lower())
+    if filters:
+        query = query.join(Products.tags).filter(Tags.name.in_(filters))
+    
+    pagination = query.paginate(page=current_page, per_page=items_per_page, error_out=False)
     products = pagination.items
 
-    # Prevent user tampering page value in the URL
     if "email" in session:
-        return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination, username=session["email"])
+        return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination, username=session["email"], filters=filters)
     else:
-        return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination)
-    
+        return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination, filters=filters)
 
 @app.route("/product", methods=["POST", "GET"])
 def product():
