@@ -6,8 +6,7 @@
 {% block header_conent%}
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/#explore">Explore</a>
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/history">History</a>
-<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/pricing"
-    target="_blank">Pricing</a>
+<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/pricing" target="_blank">Pricing</a>
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
 {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
 {% endblock %}
@@ -47,144 +46,179 @@
         <p>No {{ chosen_category }} products available at the moment. More products will arrive soon!</p>
     </div>
     {% else %}
-    <div class="text-center">
+    <div class="mb-3">
         {% if pagination is defined and pagination.pages > 1 %}
-        
+
         <!-- Items per page -->
         <div class="dropdown mb-3">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-              Items per page
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Items per page
             </button>
             <ul class="dropdown-menu" aria-labelledby="ItemsPerPageDropdown">
-              <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=9) }}">9</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=27) }}">27</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=54) }}">54</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=108) }}">108</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=9, filters=request.args.getlist('filters')) }}">9</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=27, filters=request.args.getlist('filters')) }}">27</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=54, filters=request.args.getlist('filters')) }}">54</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=108, filters=request.args.getlist('filters')) }}">108</a></li>
             </ul>
-          </div>
-
-        <nav>
-            <ul class="pagination justify-content-center">
-                {% if pagination.has_prev == True %}
-                <a href="{{ url_for('collections', page=pagination.prev_num) }}" type="button" class="btn"><svg
-                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-caret-left-fill" viewBox="0 0 16 16">
-                        <path
-                            d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
-                    </svg></a>
-                {% endif %}
-
-                {% if pagination.page >= 3 %}
-                <li class="page-item"><a class="page-link" href="{{ url_for('collections', page=1) }}">1</a></li>
-                {% endif %}
-                {% if pagination.page > 3 %}
-                <li class="page-item">
-                    <div class="page-link">...</div>
-                </li>
-                {% endif %}
-                {% if pagination.has_prev == True %}
-                <li class="page-item"><a class="page-link"
-                        href="{{ url_for('collections', page=pagination.prev_num) }}">{{
-                        pagination.prev_num }} </a></li>
-                {% endif %}
-                <li class="page-item active"><a class="page-link"
-                        href="{{ url_for('collections', page=pagination.page) }}">{{
-                        pagination.page }}</a></li>
-                {% if pagination.has_next == True %}
-                <li class="page-item"><a class="page-link"
-                        href="{{ url_for('collections', page=pagination.next_num) }}">{{
-                        pagination.next_num }}</a></li>
-                {% endif %}
-                {% if pagination.page < pagination.pages-2 %} <li class="page-item">
-                    <div class="page-link">...</div>
-                    </li>
-                    {% endif %}
-                    {% if pagination.page <= pagination.pages-2 %} <li class="page-item"><a class="page-link"
-                            href="{{ url_for('collections', page=pagination.pages) }}">{{
-                            pagination.pages }}</a></li>
-                        {% endif %}
-
-                        {% if pagination.has_next == True %}
-                        <a href="{{ url_for('collections', page=pagination.next_num) }}" type="button" class="btn"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-                            </svg></a>
-                        {% endif %}
-            </ul>
-        </nav>
-        {% endif %}
-    </div>
-    <div class="row">
-        {% for product in products %}
-        <div class="col-md-6 col-lg-4 mb-3">
-            <form action="/product" method="post">
-                <button type="submit" class="btn btn-link w-100">
-                    <img src="../{{ product.image_url }}" class="img-fluid" alt="{{ product.name }}">
-                    <input type="hidden" name="product_image_url" value="{{ product.image_url }}">
-                    <input type="hidden" name="product_name" value="{{ product.name }}">
-                    <input type="hidden" name="product_category" value="{{ product.category }}">
-                </button>
-            </form>
         </div>
-        {% endfor %}
+        <p>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+                Filters
+            </button>
+        </p>
+        <div class="col-md-9">
+            <h4>Selected Filters:</h4>
+            <p id="selectedFilters">None</p>
+        </div>
+        <div class="collapse" id="collapseExample">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Filter Options</strong>
+                </div>
+                <div class="card-body">
+                    <form id="filterForm" method="GET" action="{{ url_for('collections') }}">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="filters" value="Classical" id="2" {% if 'Classical' in request.args.getlist('filters') %}checked{% endif %}>
+                            <label class="form-check-label" for="2">Classical</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="filters" value="Ethnic" id="3" {% if 'Ethnic' in request.args.getlist('filters') %}checked{% endif %}>
+                            <label class="form-check-label" for="3">Ethnic</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="filters" value="Fun" id="4" {% if 'Fun' in request.args.getlist('filters') %}checked{% endif %}>
+                            <label class="form-check-label" for="4">Fun</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3 w-100">Apply Filters</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endif %}
-    <div class="text-center">
-        {% if pagination is defined and pagination.pages > 1 %}
-        <nav>
-            <ul class="pagination justify-content-center">
-                {% if pagination.has_prev == True %}
-                <a href="{{ url_for('collections', page=pagination.prev_num) }}" type="button" class="btn"><svg
-                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-caret-left-fill" viewBox="0 0 16 16">
-                        <path
-                            d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
-                    </svg></a>
-                {% endif %}
 
-                {% if pagination.page >= 3 %}
-                <li class="page-item"><a class="page-link" href="{{ url_for('collections', page=1) }}">1</a></li>
-                {% endif %}
-                {% if pagination.page > 3 %}
-                <li class="page-item">
-                    <div class="page-link">...</div>
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if pagination.has_prev == True %}
+            <a href="{{ url_for('collections', page=pagination.prev_num, filters=request.args.getlist('filters')) }}" type="button" class="btn"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                    <path
+                        d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+                </svg></a>
+            {% endif %}
+
+            {% if pagination.page >= 3 %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('collections', page=1, filters=request.args.getlist('filters')) }}">1</a></li>
+            {% endif %}
+            {% if pagination.page > 3 %}
+            <li class="page-item">
+                <div class="page-link">...</div>
+            </li>
+            {% endif %}
+            {% if pagination.has_prev == True %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('collections', page=pagination.prev_num, filters=request.args.getlist('filters')) }}">{{
+                    pagination.prev_num }} </a></li>
+            {% endif %}
+            <li class="page-item active"><a class="page-link"
+                    href="{{ url_for('collections', page=pagination.page, filters=request.args.getlist('filters')) }}">{{
+                    pagination.page }}</a></li>
+            {% if pagination.has_next == True %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('collections', page=pagination.next_num, filters=request.args.getlist('filters')) }}">{{
+                    pagination.next_num }}</a></li>
+            {% endif %}
+            {% if pagination.page < pagination.pages-2 %} <li class="page-item">
+                <div class="page-link">...</div>
                 </li>
                 {% endif %}
-                {% if pagination.has_prev == True %}
-                <li class="page-item"><a class="page-link"
-                        href="{{ url_for('collections', page=pagination.prev_num) }}">{{
-                        pagination.prev_num }} </a></li>
-                {% endif %}
-                <li class="page-item active"><a class="page-link"
-                        href="{{ url_for('collections', page=pagination.page) }}">{{
-                        pagination.page }}</a></li>
-                {% if pagination.has_next == True %}
-                <li class="page-item"><a class="page-link"
-                        href="{{ url_for('collections', page=pagination.next_num) }}">{{
-                        pagination.next_num }}</a></li>
-                {% endif %}
-                {% if pagination.page < pagination.pages-2 %} <li class="page-item">
-                    <div class="page-link">...</div>
-                    </li>
+                {% if pagination.page <= pagination.pages-2 %} <li class="page-item"><a class="page-link"
+                        href="{{ url_for('collections', page=pagination.pages, filters=request.args.getlist('filters')) }}">{{
+                        pagination.pages }}</a></li>
                     {% endif %}
-                    {% if pagination.page <= pagination.pages-2 %} <li class="page-item"><a class="page-link"
-                            href="{{ url_for('collections', page=pagination.pages) }}">{{
-                            pagination.pages }}</a></li>
-                        {% endif %}
 
-                        {% if pagination.has_next == True %}
-                        <a href="{{ url_for('collections', page=pagination.next_num) }}" type="button" class="btn"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-                            </svg></a>
-                        {% endif %}
-            </ul>
-        </nav>
-        {% endif %}
-    </div>
+                    {% if pagination.has_next == True %}
+                    <a href="{{ url_for('collections', page=pagination.next_num, filters=request.args.getlist('filters')) }}" type="button" class="btn"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                            <path
+                                d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                        </svg></a>
+                    {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
 </div>
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-6 col-lg-4 mb-3">
+        <form action="/product" method="post">
+            <button type="submit" class="btn btn-link w-100">
+                <img src="../{{ product.image_url }}" class="img-fluid" alt="{{ product.name }}">
+                <input type="hidden" name="product_image_url" value="{{ product.image_url }}">
+                <input type="hidden" name="product_name" value="{{ product.name }}">
+                <input type="hidden" name="product_category" value="{{ product.category }}">
+            </button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<div class="text-center">
+    {% if pagination is defined and pagination.pages > 1 %}
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if pagination.has_prev == True %}
+            <a href="{{ url_for('collections', page=pagination.prev_num, filters=request.args.getlist('filters')) }}" type="button" class="btn"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                    <path
+                        d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+                </svg></a>
+            {% endif %}
+
+            {% if pagination.page >= 3 %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('collections', page=1, filters=request.args.getlist('filters')) }}">1</a></li>
+            {% endif %}
+            {% if pagination.page > 3 %}
+            <li class="page-item">
+                <div class="page-link">...</div>
+            </li>
+            {% endif %}
+            {% if pagination.has_prev == True %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('collections', page=pagination.prev_num, filters=request.args.getlist('filters')) }}">{{
+                    pagination.prev_num }} </a></li>
+            {% endif %}
+            <li class="page-item active"><a class="page-link"
+                    href="{{ url_for('collections', page=pagination.page, filters=request.args.getlist('filters')) }}">{{
+                    pagination.page }}</a></li>
+            {% if pagination.has_next == True %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('collections', page=pagination.next_num, filters=request.args.getlist('filters')) }}">{{
+                    pagination.next_num }}</a></li>
+            {% endif %}
+            {% if pagination.page < pagination.pages-2 %} <li class="page-item">
+                <div class="page-link">...</div>
+                </li>
+                {% endif %}
+                {% if pagination.page <= pagination.pages-2 %} <li class="page-item"><a class="page-link"
+                        href="{{ url_for('collections', page=pagination.pages, filters=request.args.getlist('filters')) }}">{{
+                        pagination.pages }}</a></li>
+                    {% endif %}
+
+                    {% if pagination.has_next == True %}
+                    <a href="{{ url_for('collections', page=pagination.next_num, filters=request.args.getlist('filters')) }}" type="button" class="btn"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                            <path
+                                d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                        </svg></a>
+                    {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="{{ url_for('static', filename='scripts/filter_menu.js') }}"></script>
 {% endblock %}
