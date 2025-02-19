@@ -7,9 +7,13 @@
      */
   
   .site-header {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(255, 255, 255, 0.8);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1030;  /* Higher z-index to stay on top */
   }
   
   .site-header a {

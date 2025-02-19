@@ -222,6 +222,11 @@ def collections():
     filters = request.args.getlist('filters')
     current_page = request.args.get('page', 1, type=int)
     
+    # Get only tags that are used by products in the current category
+    available_tags = Tags.query.join(Tags.products).filter(
+        Products.category == chosen_category.lower()
+    ).distinct().all()
+    
     query = Products.query.filter_by(category=chosen_category.lower())
     if filters:
         query = query.join(Products.tags).filter(Tags.name.in_(filters))
@@ -230,9 +235,11 @@ def collections():
     products = pagination.items
 
     if "email" in session:
-        return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination, username=session["email"], filters=filters)
+        return render_template("collections.html", chosen_category=chosen_category, products=products, 
+                            pagination=pagination, username=session["email"], filters=filters, tags=available_tags)
     else:
-        return render_template("collections.html", chosen_category=chosen_category, products=products, pagination=pagination, filters=filters)
+        return render_template("collections.html", chosen_category=chosen_category, products=products, 
+                            pagination=pagination, filters=filters, tags=available_tags)
 
 @app.route("/product", methods=["POST", "GET"])
 def product():

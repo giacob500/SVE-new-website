@@ -46,33 +46,33 @@
     {% else %}
     <div class="row">
         <!-- Filters Sidebar -->
+        {% if tags|length > 0 %}
         <div class="col-md-3">
             <div class="card sticky-top sticky-top-offset">
                 <div class="card-header">
-                    <strong>Filter Options</strong>
+                    <strong>Filters</strong>
                 </div>
                 <div class="card-body">
                     <form id="filterForm" method="GET" action="{{ url_for('collections') }}">
+                        {% for tag in tags %}
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="filters" value="Classical" id="2" {% if 'Classical' in request.args.getlist('filters') %}checked{% endif %}>
-                            <label class="form-check-label" for="2">Classical</label>
+                            <input class="form-check-input" type="checkbox" name="filters" 
+                                   value="{{ tag.name }}" id="{{ tag.id }}" 
+                                   {% if tag.name in request.args.getlist('filters') %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ tag.id }}">{{ tag.name }}</label>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="filters" value="Ethnic" id="3" {% if 'Ethnic' in request.args.getlist('filters') %}checked{% endif %}>
-                            <label class="form-check-label" for="3">Ethnic</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="filters" value="Fun" id="4" {% if 'Fun' in request.args.getlist('filters') %}checked{% endif %}>
-                            <label class="form-check-label" for="4">Fun</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-3 w-100">Apply Filters</button>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary mt-3 w-100">Apply</button>
                     </form>
                 </div>
             </div>
         </div>
-
         <!-- Products Grid -->
         <div class="col-md-9">
+        {% else %}
+        <!-- If no tags, use full width for products -->
+        <div class="col-md-12">
+        {% endif %}
             <div class="row">
                 {% for product in products %}
                 <div class="col-md-6 col-lg-4 mb-3">
