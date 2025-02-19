@@ -70,15 +70,15 @@ def handle_all_errors(e):
 
 @app.route("/terms")
 def home2():
-    return render_template("terms.html")
+    return render_template("terms.html", username=session["email"])
 
 @app.route("/contacts")
 def contacts():
-    return render_template("contacts.html")
+    return render_template("contacts.html", username=session["email"])
 
 @app.route("/history")
 def history():
-    return render_template("history.html")
+    return render_template("history.html", username=session["email"])
 
 # Pages accessible only to website admins (currently just lorenzi@lorenzi.net) to check all users currently registered on website
 @app.route("/admin")

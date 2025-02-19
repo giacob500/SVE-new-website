@@ -2,17 +2,10 @@
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/history.css') }}" />
-<link href="../static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-<link href="../static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-<link href="../static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-<link href="../static/vendor/remixicon/remixicon.css" rel="stylesheet">
-<link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
 {% endblock %}
 {% block tab_title %}History{% endblock %}
-{% block header_conent%}
+{% block header_content %}
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/#explore">Explore</a>
-<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/history">History</a>
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/pricing"
     target="_blank">Pricing</a>
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
@@ -23,7 +16,6 @@
 <!-- ======= Story Intro Section ======= -->
 <section id="story-intro" class="story-intro">
     <div class="container">
-
       <div class="row">
         <div class="col-lg-6 order-1 order-lg-2">
           <img src="../static/imgs/paragraph/valpo2.jpg" class="img-fluid" alt="Valpolicella">
