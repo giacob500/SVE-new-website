@@ -66,5 +66,13 @@
 }
 
 .sticky-top-offset {
-    top: 80px; /* Account for header height + some breathing room */
+    position: sticky;
+    top: 80px;
+    z-index: 1020; /* Lower than header but above content */
+}
+
+.sticky-top-offset .card {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
