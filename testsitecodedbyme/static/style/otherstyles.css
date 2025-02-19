@@ -64,3 +64,7 @@
   display: block; /* Remove extra space beneath the image */
   margin: auto; /* Center the image */
 }
+
+.sticky-top-offset {
+    top: 80px; /* Account for header height + some breathing room */
+}
