@@ -48,30 +48,10 @@
     {% else %}
     <div class="mb-3">
         {% if pagination is defined and pagination.pages > 1 %}
-
-        <!-- Items per page -->
-        <div class="dropdown mb-3">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                Items per page
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="ItemsPerPageDropdown">
-                <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=9, filters=request.args.getlist('filters')) }}">9</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=27, filters=request.args.getlist('filters')) }}">27</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=54, filters=request.args.getlist('filters')) }}">54</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('collections', items_per_page=108, filters=request.args.getlist('filters')) }}">108</a></li>
-            </ul>
-        </div>
-        <p>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-                aria-expanded="false" aria-controls="collapseExample">
-                Filters
-            </button>
-        </p>
-        <div class="col-md-9">
-            <h4>Selected Filters:</h4>
-            <p id="selectedFilters">None</p>
-        </div>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Filters
+        </button>
         <div class="collapse" id="collapseExample">
             <div class="card">
                 <div class="card-header">
@@ -148,7 +128,7 @@
         </ul>
     </nav>
     {% endif %}
-</div>
+
 <div class="row">
     {% for product in products %}
     <div class="col-md-6 col-lg-4 mb-3">

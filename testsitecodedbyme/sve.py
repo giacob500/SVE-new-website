@@ -220,18 +220,13 @@ def collections():
         session["last_category"] = chosen_category
 
     filters = request.args.getlist('filters')
-    
     current_page = request.args.get('page', 1, type=int)
-    items_per_page = session.get("items_per_page", 27)
-    if "items_per_page" in request.args:
-        items_per_page = int(request.args.get("items_per_page"))
-        session["items_per_page"] = items_per_page
-
+    
     query = Products.query.filter_by(category=chosen_category.lower())
     if filters:
         query = query.join(Products.tags).filter(Tags.name.in_(filters))
     
-    pagination = query.paginate(page=current_page, per_page=items_per_page, error_out=False)
+    pagination = query.paginate(page=current_page, per_page=27, error_out=False)
     products = pagination.items
 
     if "email" in session:
