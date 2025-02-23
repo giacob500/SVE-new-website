@@ -1,8 +1,9 @@
 import os
 from flask import Flask, flash, redirect, url_for, render_template, send_file, request, session, abort
-from datetime import timedelta
+from datetime import timedelta, datetime  # Add datetime import
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from pytz import timezone
 
 app = Flask(__name__)
 
@@ -123,7 +124,12 @@ def inventory():
                         temporary_path = app.config['UPLOAD_PATH'] + "/" + retrived_category.category
                         uploaded_file.save(os.path.join(temporary_path, filename))
                         
-                        new_product = Products(name=product_name, category=product_category, image_url=temporary_path + "/" + filename)
+                        new_product = Products(
+                            name=product_name, 
+                            category=product_category, 
+                            image_url=temporary_path + "/" + filename,
+                            date=datetime.now(timezone('Europe/Rome')).isoformat()  # Add current UTC date in ISO format
+                        )
                         db.session.add(new_product)
                         db.session.commit()
                         flash(f"'{product_name}' added successfully", "success")
@@ -132,8 +138,28 @@ def inventory():
                 
             return redirect(url_for("inventory"))
 
-
-        return render_template("inventory.html", values=Products.query.all())
+        # Get sort parameters from URL
+        sort_by = request.args.get('sort', 'id')  # Default sort by id
+        order = request.args.get('order', 'asc')  # Default ascending order
+        
+        # Define allowed sortable columns
+        sortable_columns = ['id', 'name', 'category', 'date']
+        
+        # Validate sort column
+        if sort_by not in sortable_columns:
+            sort_by = 'id'  # Default to id if invalid column
+        
+        # Build the query with sorting
+        query = Products.query
+        if order == 'desc':
+            query = query.order_by(getattr(Products, sort_by).desc())
+        else:
+            query = query.order_by(getattr(Products, sort_by).asc())
+            
+        return render_template("inventory.html", 
+                            values=query.all(),
+                            current_sort=sort_by,
+                            current_order=order)
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
 
