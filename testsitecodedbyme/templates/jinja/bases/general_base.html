@@ -62,6 +62,24 @@
                 </div>
             </div>
         </div>
+<!-- 
+
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% set last_category, last_message = messages[-1] %}
+                {% if last_category == 'error' %}
+                <div class="alert alert-danger" role="alert">{{ last_message }}</div>
+                {% elif last_category == 'success' %}
+                <div class="alert alert-success" role="alert">{{ last_message }}</div>
+                {% else %}
+                <div class="alert alert-warning" role="alert">{{ last_message }}</div>
+                {% endif %}
+                {% endif %}
+                {% endwith %}
+            </div>
+          </div> -->
         {% block content %}{% endblock %}
     </div>
     {% include "jinja/footer_content.html" %}

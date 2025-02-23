@@ -4,6 +4,7 @@ from datetime import timedelta, datetime  # Add datetime import
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from pytz import timezone
+from sqlalchemy import or_
 
 app = Flask(__name__)
 
@@ -92,6 +93,10 @@ def adminview():
 @app.route("/inventory", methods=['GET', 'POST'])
 def inventory():
     if "email" in session and session["email"] == app.config['ADMIN_EMAIL']:
+        # Get sort parameters from URL (moved to top of function)
+        sort_by = request.args.get('sort', 'id')
+        order = request.args.get('order', 'asc')
+
         if request.method == 'POST':
             product_name = request.form["product_name"]
             if 'product_id' in request.form:
@@ -102,10 +107,15 @@ def inventory():
                     db.session.delete(product_to_delete)
                     db.session.commit()
                     # Delete the product from filesystem
-                    os.remove(request.form["product_image_url"])
+                    file_path = request.form["product_image_url"]
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
+                    else:
+                        print(f"Warning: File {file_path} does not exist")
                     flash(f"'{product_name}' deleted successfully", "success")
                 else:
                     flash('Product to delete not found', 'error')
+                return redirect(url_for('inventory', sort=sort_by, order=order))
             else:
                 uploaded_file = request.files['file']
                 filename = uploaded_file.filename
@@ -131,12 +141,28 @@ def inventory():
                             date=datetime.now(timezone('Europe/Rome')).isoformat()  # Add current UTC date in ISO format
                         )
                         db.session.add(new_product)
+                        
+                        # Process tags if provided
+                        if 'product_tags' in request.form and request.form['product_tags'].strip():
+                            # Split tags by comma and space, and clean them
+                            tag_names = [t.strip() for t in request.form['product_tags'].split(',') if t.strip()]
+                            
+                            # For each tag name
+                            for tag_name in tag_names:
+                                # Find existing tag or create new one
+                                tag = Tags.query.filter(Tags.name == tag_name).first()
+                                if not tag:
+                                    tag = Tags(name=tag_name)
+                                    db.session.add(tag)
+                                # Associate tag with product
+                                new_product.tags.append(tag)
+                        
                         db.session.commit()
-                        flash(f"'{product_name}' added successfully", "success")
+                        flash(f"'{product_name}' added successfully with tags", "success")
                     else:
                         flash("You attempted to insert a product that already exist", "error")
                 
-            return redirect(url_for("inventory"))
+                return redirect(url_for('inventory', sort=sort_by, order=order))
 
         # Get sort parameters from URL
         sort_by = request.args.get('sort', 'id')  # Default sort by id
