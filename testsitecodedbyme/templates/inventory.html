@@ -16,6 +16,9 @@
     <div class="alert alert-warning" role="alert">
         Page available only to website administrator.
     </div>
+
+    <p>Press <span class="badge bg-secondary">Ctrl</span> + <span class="badge bg-secondary">F</span> to search product</p>
+
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-outline-primary mt-3 mb-3" data-bs-toggle="modal"
         data-bs-target="#modal">
@@ -36,8 +39,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-
-
 
                         <label for="inputName" class="form-label">Name</label>
                         <input type="name" class="form-control" id="inputName" name="product_name"
@@ -70,10 +71,26 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Category</th>
+                <!-- Sortable columns -->
+                {% for header in [
+                    ('id', 'ID'),
+                    ('name', 'Name'),
+                    ('category', 'Category'),
+                    ('date', 'Date Added')
+                ] %}
+                <th scope="col">
+                    <a href="{{ url_for('inventory', sort=header[0], order='desc' if current_sort == header[0] and current_order == 'asc' else 'asc') }}"
+                       class="text-dark text-decoration-none">
+                        {{ header[1] }}
+                        {% if current_sort == header[0] %}
+                            {% if current_order == 'asc' %}↑{% else %}↓{% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                {% endfor %}
+                <!-- Non-sortable columns -->
                 <th scope="col">Image</th>
+                <th scope="col">Tags</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -83,8 +100,14 @@
                 <th scope="row">{{ item.id }}</th>
                 <td>{{ item.name }}</td>
                 <td>{{ item.category }}</td>
+                <td>{{ item.date.replace('T', ' at ').split('.')[0].replace('Z', '') if item.date else 'N/A' }}</td>
                 <td><img src="../{{ item.image_url }}" class="img-thumbnail img-fluid" alt="{{ item.name }}"
                         loading="lazy"></td>
+                <td>
+                    {% for tag in item.tags %}
+                        <span class="badge rounded-pill bg-warning text-dark">{{ tag.name }}</span> 
+                    {% endfor %}
+                </td>
                 <td width="50">
                     <form action="" method="post">
                         <a href="../{{ item.image_url }}" target="_blank" class="btn btn-outline-secondary"><svg
@@ -107,7 +130,7 @@
                                 <path
                                     d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
                                 <path
-                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
                             </svg>
                         </button>
                     </form>
