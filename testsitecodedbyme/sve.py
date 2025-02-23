@@ -112,7 +112,7 @@ def inventory():
                         os.remove(file_path)
                     else:
                         print(f"Warning: File {file_path} does not exist")
-                    flash(f"'{product_name}' deleted successfully", "success")
+                    flash(f"❌ '{product_name}' deleted successfully", "success")
                 else:
                     flash('Product to delete not found', 'error')
                 return redirect(url_for('inventory', sort=sort_by, order=order))
@@ -158,7 +158,7 @@ def inventory():
                                 new_product.tags.append(tag)
                         
                         db.session.commit()
-                        flash(f"'{product_name}' added successfully with tags", "success")
+                        flash(f"✅ '{product_name}' added successfully", "success")
                     else:
                         flash("You attempted to insert a product that already exist", "error")
                 

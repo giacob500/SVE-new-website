@@ -44,48 +44,48 @@
     </nav>
     <div class="container-fluid">
         {% block top_content %}{% endblock %}
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-8 col-md-6">
-                <div class="text-center">
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                    {% set last_category, last_message = messages[-1] %}
-                    {% if last_category == 'error' %}
-                    <div class="alert alert-danger" role="alert">{{ last_message }}</div>
-                    {% elif last_category == 'success' %}
-                    <div class="alert alert-success" role="alert">{{ last_message }}</div>
-                    {% else %}
-                    <div class="alert alert-warning" role="alert">{{ last_message }}</div>
-                    {% endif %}
-                    {% endif %}
-                    {% endwith %}
+        <!-- Toast container -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% set last_category, last_message = messages[-1] %}
+            <div class="toast {% if last_category == 'error' %}bg-danger text-white{% elif last_category == 'success' %}bg-success text-white{% else %}bg-warning text-dark{% endif %}"
+                 role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header {% if last_category == 'error' %}bg-danger text-white{% elif last_category == 'success' %}bg-success text-white{% else %}bg-warning text-dark{% endif %}">
+                    <strong class="me-auto">
+                        {% if last_category == 'error' %}Error
+                        {% elif last_category == 'success' %}Success
+                        {% else %}Notice
+                        {% endif %}
+                    </strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{ last_message }}
                 </div>
             </div>
+            {% endif %}
+            {% endwith %}
         </div>
-<!-- 
-
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-body">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                {% set last_category, last_message = messages[-1] %}
-                {% if last_category == 'error' %}
-                <div class="alert alert-danger" role="alert">{{ last_message }}</div>
-                {% elif last_category == 'success' %}
-                <div class="alert alert-success" role="alert">{{ last_message }}</div>
-                {% else %}
-                <div class="alert alert-warning" role="alert">{{ last_message }}</div>
-                {% endif %}
-                {% endif %}
-                {% endwith %}
-            </div>
-          </div> -->
         {% block content %}{% endblock %}
     </div>
     {% include "jinja/footer_content.html" %}
     {% block javascript %}
     {% endblock %}
     {% include "jinja/bootstrap_js.html" %}
+    <!-- Initialize toasts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toastElList = document.querySelectorAll('.toast');
+            toastElList.forEach(function(toastEl) {
+                const toast = new bootstrap.Toast(toastEl, {
+                    autohide: true,
+                    delay: 6000
+                });
+                toast.show();
+            });
+        });
+    </script>
 </body>
 
 </html>
