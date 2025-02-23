@@ -53,6 +53,12 @@
                             <option value="slate">slate</option>
                             <option value="books">books</option>
                         </select>
+
+                        <label for="inputTags" class="form-label">Tags</label>
+                        <input type="text" class="form-control" id="inputTags" name="product_tags"
+                            placeholder="e.g. flowers, fruits, vegetables" aria-describedby="tagsHelp">
+                        <div id="tagsHelp" class="form-text">Separate multiple tags with ", " (comma and space)</div>
+
                         <label for="inputCategory" class="form-label">Upload product image</label>
                         <p><input type="file" name="file" accept=".jpg,.jpeg,.png" required></p>
 
@@ -120,7 +126,9 @@
                             </svg></a>
                     </form>
 
-                    <form onsubmit="return showConfirmation(`Are you sure you want to delete '{{ item.name }}'?`)" action="/inventory" method="post">
+                    <form onsubmit="return showConfirmation(`Are you sure you want to delete '{{ item.name }}'?`)" 
+                          action="{{ url_for('inventory', sort=current_sort, order=current_order) }}" 
+                          method="post">
                         <input type="hidden" name="product_id" value="{{ item.id }}">
                         <input type="hidden" name="product_name" value="{{ item.name }}">
                         <input type="hidden" name="product_image_url" value="{{ item.image_url }}">
