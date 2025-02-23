@@ -49,7 +49,7 @@ class Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-""" #---- ERROR HANDLING ----
+#---- ERROR HANDLING ----
 
 # Error handler for client error 404
 @app.errorhandler(404)
@@ -66,7 +66,6 @@ def internal_server_error(e):
 @app.errorhandler(Exception)
 def handle_all_errors(e):
     return render_template('error.html', error_message='An unexpected error occurred'), 500
- """
 
 #---- ROUTING AND PAGES ----
 
