@@ -1,10 +1,8 @@
 import os
 from flask import Flask, flash, redirect, url_for, render_template, send_file, request, session, abort
-from datetime import timedelta, datetime  # Add datetime import
+from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from pytz import timezone
-from sqlalchemy import or_
 
 app = Flask(__name__)
 
@@ -49,7 +47,7 @@ class Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-#---- ERROR HANDLING ----
+""" #---- ERROR HANDLING ----
 
 # Error handler for client error 404
 @app.errorhandler(404)
@@ -66,20 +64,21 @@ def internal_server_error(e):
 @app.errorhandler(Exception)
 def handle_all_errors(e):
     return render_template('error.html', error_message='An unexpected error occurred'), 500
+ """
 
 #---- ROUTING AND PAGES ----
 
 @app.route("/terms")
 def home2():
-    return render_template("terms.html", username=session["email"])
+    return render_template("terms.html", username=session.get("email"))
 
 @app.route("/contacts")
 def contacts():
-    return render_template("contacts.html", username=session["email"])
+    return render_template("contacts.html", username=session.get("email"))
 
 @app.route("/history")
 def history():
-    return render_template("history.html", username=session["email"])
+    return render_template("history.html", username=session.get("email"))
 
 # Pages accessible only to website admins (currently just lorenzi@lorenzi.net) to check all users currently registered on website
 @app.route("/admin")
@@ -92,10 +91,6 @@ def adminview():
 @app.route("/inventory", methods=['GET', 'POST'])
 def inventory():
     if "email" in session and session["email"] == app.config['ADMIN_EMAIL']:
-        # Get sort parameters from URL (moved to top of function)
-        sort_by = request.args.get('sort', 'id')
-        order = request.args.get('order', 'asc')
-
         if request.method == 'POST':
             product_name = request.form["product_name"]
             if 'product_id' in request.form:
@@ -106,15 +101,10 @@ def inventory():
                     db.session.delete(product_to_delete)
                     db.session.commit()
                     # Delete the product from filesystem
-                    file_path = request.form["product_image_url"]
-                    if os.path.exists(file_path):
-                        os.remove(file_path)
-                    else:
-                        print(f"Warning: File {file_path} does not exist")
-                    flash(f"❌ '{product_name}' deleted successfully", "success")
+                    os.remove(request.form["product_image_url"])
+                    flash(f"'{product_name}' deleted successfully", "success")
                 else:
                     flash('Product to delete not found', 'error')
-                return redirect(url_for('inventory', sort=sort_by, order=order))
             else:
                 uploaded_file = request.files['file']
                 filename = uploaded_file.filename
@@ -133,58 +123,17 @@ def inventory():
                         temporary_path = app.config['UPLOAD_PATH'] + "/" + retrived_category.category
                         uploaded_file.save(os.path.join(temporary_path, filename))
                         
-                        new_product = Products(
-                            name=product_name, 
-                            category=product_category, 
-                            image_url=temporary_path + "/" + filename,
-                            date=datetime.now(timezone('Europe/Rome')).isoformat()  # Add current UTC date in ISO format
-                        )
+                        new_product = Products(name=product_name, category=product_category, image_url=temporary_path + "/" + filename)
                         db.session.add(new_product)
-                        
-                        # Process tags if provided
-                        if 'product_tags' in request.form and request.form['product_tags'].strip():
-                            # Split tags by comma and space, and clean them
-                            tag_names = [t.strip() for t in request.form['product_tags'].split(',') if t.strip()]
-                            
-                            # For each tag name
-                            for tag_name in tag_names:
-                                # Find existing tag or create new one
-                                tag = Tags.query.filter(Tags.name == tag_name).first()
-                                if not tag:
-                                    tag = Tags(name=tag_name)
-                                    db.session.add(tag)
-                                # Associate tag with product
-                                new_product.tags.append(tag)
-                        
                         db.session.commit()
-                        flash(f"✅ '{product_name}' added successfully", "success")
+                        flash(f"'{product_name}' added successfully", "success")
                     else:
                         flash("You attempted to insert a product that already exist", "error")
                 
-                return redirect(url_for('inventory', sort=sort_by, order=order))
+            return redirect(url_for("inventory"))
 
-        # Get sort parameters from URL
-        sort_by = request.args.get('sort', 'id')  # Default sort by id
-        order = request.args.get('order', 'asc')  # Default ascending order
-        
-        # Define allowed sortable columns
-        sortable_columns = ['id', 'name', 'category', 'date']
-        
-        # Validate sort column
-        if sort_by not in sortable_columns:
-            sort_by = 'id'  # Default to id if invalid column
-        
-        # Build the query with sorting
-        query = Products.query
-        if order == 'desc':
-            query = query.order_by(getattr(Products, sort_by).desc())
-        else:
-            query = query.order_by(getattr(Products, sort_by).asc())
-            
-        return render_template("inventory.html", 
-                            values=query.all(),
-                            current_sort=sort_by,
-                            current_order=order)
+
+        return render_template("inventory.html", values=Products.query.all())
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
 
