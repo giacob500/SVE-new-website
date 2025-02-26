@@ -5,7 +5,7 @@ const translations = [
     {text: "Bestellen Sie hier. Keine Sorge, wir senden Ihnen wie gewohnt eine Bestätigung.", lang: "German"}
 ];
 
-let currentIndex = 0;
+let currentIndex = 1; // Start from second item since first is already showing
 const textElement = document.getElementById('text');
 
 function changeText() {
@@ -33,5 +33,5 @@ function changeText() {
     }, 2000); // Duration of fade-out
 }
 
-// Start the transition after 3 seconds
-setTimeout(changeText, 3000);
+// Start the transition after 5 seconds to give users time to read the first message
+setTimeout(changeText, 5000);

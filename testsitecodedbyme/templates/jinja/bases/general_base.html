@@ -51,7 +51,7 @@
             {% set last_category, last_message = messages[-1] %}
             <div class="toast {% if last_category == 'error' %}bg-danger text-white{% elif last_category == 'success' %}bg-success text-white{% else %}bg-warning text-dark{% endif %}"
                  role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header {% if last_category == 'error' %}bg-danger text-white{% elif last_category == 'success' %}bg-success text-white{% else %}bg-warning text-dark{% endif %}">
+                <div class="toast-header {% if last_category == 'error' %}bg-danger text-white{% elif last_category == 'success' %}bg-success text-white{% endif %}">
                     <strong class="me-auto">
                         {% if last_category == 'error' %}Error
                         {% elif last_category == 'success' %}Success

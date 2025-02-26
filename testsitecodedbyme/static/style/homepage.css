@@ -97,3 +97,39 @@
 .fade-in {
   opacity: 1;
 }
+
+.content-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.main-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.subtitle {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.admin-panel {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.user-controls, .guest-controls {
+  margin-top: 2rem;
+}
+
+.gap-3 {
+  gap: 1rem;
+}

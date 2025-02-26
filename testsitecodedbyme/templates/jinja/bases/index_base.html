@@ -40,18 +40,41 @@
       </a>
       <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/#explore">Explore</a>
       <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/history">History</a>
-      <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/pricing"
-        target="_blank">Pricing</a>
+      <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/pricing" target="_blank">Pricing</a>
       <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
       {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif
       %}
     </div>
   </nav>
-  <div class="wsite-background wsite-custom-background position-relative overflow-hidden text-center full-screen">
-    <div class="col-md-7 p-lg-1">
-      <h1 class="display-4 font-weight-normal">{% block homepage_title %}{% endblock %}</h1>
-      <div id="text" class="lead font-weight-normal subtitle">{% block homepage_subtitle %}{% endblock %}</div>
-      <a href="/categories" class="btn btn-outline-light btn-lg mt-3 mb-3">Enter</a>
+
+  <div class="wsite-background wsite-custom-background">
+    <div class="content-wrapper">
+      <div class="main-content text-center">
+        <h1 class="display-3 mb-4">STUDIOSVE</h1>
+        <div id="text" class="lead subtitle mb-4">Place your order here. Don't worry, we will send you a confirmation as usual.</div>
+        
+        {% if username %}
+          <div class="user-controls">
+            <div class="mb-5">
+              <a href="/categories" class="btn btn-outline-light btn-lg px-5">Enter Collection</a>
+            </div>
+
+            {% if is_admin %}
+            <div class="admin-panel mt-4 p-4 rounded">
+              <h4 class="mb-4">Administrator Controls</h4>
+              <div class="d-flex justify-content-center gap-3">
+                <a href="/admin" class="btn btn-outline-info">Registered Users</a>
+                <a href="/inventory" class="btn btn-outline-warning">Edit Catalogue</a>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="guest-controls">
+            <a href="/categories" class="btn btn-outline-light btn-lg px-5">Browse Collection</a>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 
