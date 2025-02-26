@@ -47,7 +47,7 @@ class Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-""" #---- ERROR HANDLING ----
+#---- ERROR HANDLING ----
 
 # Error handler for client error 404
 @app.errorhandler(404)
@@ -64,7 +64,6 @@ def internal_server_error(e):
 @app.errorhandler(Exception)
 def handle_all_errors(e):
     return render_template('error.html', error_message='An unexpected error occurred'), 500
- """
 
 #---- ROUTING AND PAGES ----
 
@@ -132,8 +131,29 @@ def inventory():
                 
             return redirect(url_for("inventory"))
 
+        # Handle sorting parameters
+        sort_column = request.args.get('sort', 'date')
+        sort_order = request.args.get('order', 'desc')
 
-        return render_template("inventory.html", values=Products.query.all())
+        # Validate sort_column against Products model
+        valid_columns = ['id', 'name', 'category', 'date']
+        if sort_column not in valid_columns:
+            sort_column = 'id'
+
+        # Determine the order direction
+        if sort_order == 'asc':
+            order = getattr(Products, sort_column).asc()
+        else:
+            order = getattr(Products, sort_column).desc()
+
+        # Fetch sorted products
+        products = Products.query.order_by(order).all()
+
+        return render_template("inventory.html", 
+                             values=products,
+                             current_sort=sort_column,
+                             current_order=sort_order)
+    
     flash("Please log-in to access this page", "info")
     return redirect(url_for("login"))
 
@@ -370,7 +390,7 @@ def pricing():
     if "email" in session: 
         try:
             # Path to the PDF you want to serve
-            return send_file('static/docs/SVEpricelistJan2024.pdf', as_attachment=False)
+            return send_file('static/docs/SVEpricelistJAN2025.pdf', as_attachment=False)
         except Exception as e:
             abort(404)  # If the file is not found, return 404 error
     else:
