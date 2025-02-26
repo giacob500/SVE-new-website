@@ -329,17 +329,25 @@ def register():
         
         email = request.form["email"]
         password = request.form["pswd"]
+        confirm_password = request.form["confirm_pswd"]
+
+        # Check if passwords match
+        if password != confirm_password:
+            flash("Passwords do not match. Please try again.", "error")
+            return redirect(url_for("register"))
 
         # Check if the email is already in use
         existing_user = Users.query.filter_by(email=email).first()
         if existing_user:
             flash("Email already in use. Please choose another email.", "error")
             return redirect(url_for("register"))
+
         # Check if the password is empty
         if not password:
             flash("Password cannot be empty. Please insert a password.", "error")
             return redirect(url_for("register"))
         
+        # If all checks pass, create the new user
         hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
         new_user = Users(email=email, password=hashed_password)
         db.session.add(new_user)

@@ -33,5 +33,4 @@ function changeText() {
     }, 2000); // Duration of fade-out
 }
 
-// Start the transition after 5 seconds to give users time to read the first message
-setTimeout(changeText, 5000);
+setTimeout(changeText, 3000);
