@@ -55,18 +55,18 @@
                 </tbody>
             </table>
             <div class="container mt-1">
-                <form id="emailForm">
+                <form action="{{ url_for('submit_order') }}" method="post">
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="email">E-mail:</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ username }}" >
+                        <input type="email" class="form-control" id="email" name="email" value="{{ username }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Phone number<br>(preferebly including country code e.g. +39 for IT):</label>
-                        <input type="tel" class="form-control" id="phone" name="phone">
+                        <label for="phone">Phone number<br>(preferably including country code e.g. +39 for IT):</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
                     </div>
                     <div class="form-group">
                         <label for="comments">Something to add? Write it here:</label>
@@ -79,7 +79,7 @@
                     <input type="hidden" name="Tiles Details" value="{{ item.selected_tiles }}">
                     <input type="hidden" name="Quantity" value="{{ item.product_quantity }}">
                     {% endfor %}
-                    <button type="submit" class="btn btn-primary mt-4">Compose Email</button>
+                    <button type="submit" class="btn btn-primary mt-4">Submit Order</button>
                 </form>
                 <div class="row mt-3">
                     <form action="/basket" method="post" class="mr-2">

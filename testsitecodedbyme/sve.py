@@ -3,17 +3,19 @@ from flask import Flask, flash, redirect, url_for, render_template, send_file, r
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
 #---- APP CONFIGURATION ----
-
 app.config.from_pyfile('etc/defaults.cfg')
 
-app.permanent_session_lifetime = timedelta(minutes=15)
-
+# Initialize extensions after loading config
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+mail = Mail(app)  # Move this here, after loading config
+
+app.permanent_session_lifetime = timedelta(minutes=15)
 
 #---- DATABASE CONFIGURATION ----
 
@@ -320,6 +322,54 @@ def basket():
     
     flash("Please log-in to access this page", "info")
     return redirect(url_for("user"))
+
+@app.route("/submit_order", methods=["POST"])
+def submit_order():
+    if "email" not in session:
+        flash("Please log in to submit your order", "error")
+        return redirect(url_for("login"))
+    
+    try:
+        # Get form data
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        comments = request.form.get('comments', '')
+        basket_data = session.get("basket_data", [])
+
+        if not basket_data:
+            flash("Your basket is empty", "error")
+            return redirect(url_for("basket"))
+
+        # Create HTML email using template
+        html_content = render_template(
+            'email/order_confirmation.html',
+            name=name,
+            email=email,
+            phone=phone,
+            comments=comments,
+            basket_data=basket_data
+        )
+
+        # Create and send email with HTML content
+        msg = Message(
+            subject=f"New Order from SVE website - {name}",
+            recipients=[app.config['MAIL_RECIPIENT']],  # Use dedicated recipient email
+            html=html_content,
+            reply_to=email
+        )
+        
+        mail.send(msg)
+        
+        # Clear basket after successful order
+        session.pop("basket_data", None)
+        flash("Your order has been submitted successfully!", "success")
+        return redirect(url_for("home"))
+        
+    except Exception as e:
+        print(f"Error sending email: {e}")
+        flash("There was an error submitting your order. Please try again.", "error")
+        return redirect(url_for("basket"))
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
