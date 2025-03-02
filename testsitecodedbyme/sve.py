@@ -4,6 +4,7 @@ from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_mail import Mail, Message
+from error_handlers import error_handlers
 
 app = Flask(__name__)
 
@@ -14,6 +15,9 @@ app.config.from_pyfile('etc/defaults.cfg')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 mail = Mail(app)  # Move this here, after loading config
+
+# Register error handlers
+error_handlers(app)
 
 app.permanent_session_lifetime = timedelta(minutes=15)
 
@@ -49,24 +53,6 @@ class Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-""" #---- ERROR HANDLING ----
-
-# Error handler for client error 404
-@app.errorhandler(404)
-def invalid_route(e):
-    return render_template("error.html", error_message="The source you are looking forward does not exist. Please return to the homepage."), 404
-
-# Error handler for all server errors (5xx)
-@app.errorhandler(500)
-def internal_server_error(e):
-    return render_template("error.html", error_message="Internal Server Error"), 500
-
-
-# Error handler for all other errors
-@app.errorhandler(Exception)
-def handle_all_errors(e):
-    return render_template('error.html', error_message='An unexpected error occurred'), 500
- """
 #---- ROUTING AND PAGES ----
 
 @app.route("/terms")
