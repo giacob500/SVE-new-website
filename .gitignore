@@ -3,3 +3,5 @@ testsitecodedbyme/test/
 testsitecodedbyme/etc/
 testsitecodedbyme/mantainance/
 testsitecodedbyme/.vscode/
+testsitecodedbyme/venv/
+testsitecodedbyme/__pycache__/
