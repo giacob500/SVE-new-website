@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_mail import Mail, Message
 from error_handlers import error_handlers
+from datetime import datetime
+import pytz  # Add this import at the top of the file
 
 app = Flask(__name__)
 
@@ -315,30 +317,58 @@ def submit_order():
         phone = request.form.get('phone')
         comments = request.form.get('comments', '')
         basket_data = session.get("basket_data", [])
-
+        
         if not basket_data:
             flash("Your basket is empty", "error")
             return redirect(url_for("basket"))
 
-        # Create HTML email using template
-        html_content = render_template(
+        # Calculate total items
+        total_items = sum(item['product_quantity'] for item in basket_data)
+        
+        # Generate order ID and timestamp in Italian timezone
+        italian_tz = pytz.timezone('Europe/Rome')
+        timestamp = datetime.now(italian_tz)
+        order_id = f"SVE{timestamp.strftime('%Y%m%d%H%M%S')}"
+
+        # Create and send confirmation email to admin
+        admin_html = render_template(
             'email/order_confirmation.html',
             name=name,
             email=email,
             phone=phone,
             comments=comments,
-            basket_data=basket_data
-        )
-
-        # Create and send email with HTML content
-        msg = Message(
-            subject=f"New Order from SVE website - {name}",
-            recipients=[app.config['MAIL_RECIPIENT']],  # Use dedicated recipient email
-            html=html_content,
-            reply_to=email
+            basket_data=basket_data,
+            order_id=order_id,  # Add order_id
+            timestamp=timestamp  # Add timestamp
         )
         
-        mail.send(msg)
+        admin_msg = Message(
+            subject=f"New Order from SVE website - {name}",
+            recipients=[app.config['MAIL_RECIPIENT']],
+            html=admin_html,
+            reply_to=email
+        )
+        mail.send(admin_msg)
+
+        # Create and send receipt to customer
+        customer_html = render_template(
+            'email/order_receipt.html',
+            name=name,
+            email=email,
+            phone=phone,
+            comments=comments,
+            basket_data=basket_data,
+            order_id=order_id,
+            timestamp=timestamp,
+            total_items=total_items
+        )
+        
+        customer_msg = Message(
+            subject=f"Your STUDIOSVE Order Confirmation - #{order_id}",
+            recipients=[session['email']],
+            html=customer_html
+        )
+        mail.send(customer_msg)
         
         # Clear basket after successful order
         session.pop("basket_data", None)

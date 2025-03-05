@@ -70,13 +70,13 @@
 
             <div class="card border-0 bg-light mt-4">
                 <div class="card-body p-4">
-                    <h5 class="mb-4 fw-semibold">Order Details</h5>
+                    <h5 class="mb-4 fw-semibold">Your Order Details</h5>
                     <form action="{{ url_for('submit_order') }}" method="post">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control rounded-3" id="name" name="name" required>
-                                    <label for="name">Full Name</label>
+                                    <label for="name">Full Name (and Organisation)</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -129,7 +129,7 @@
                     <i class="bi bi-cart-x fs-1 text-muted"></i>
                     <h3 class="h4 mt-4 fw-semibold">Empty</h3>
                     <p class="text-muted mb-4">Start adding items from our collection</p>
-                    <a href="/" class="btn btn-dark rounded-3 px-4">Explore Products</a>
+                    <a href="/categories" class="btn btn-dark rounded-3 px-4">Explore Products</a>
                 </div>
             </div>
             {% endif %}

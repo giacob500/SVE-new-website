@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Your STUDIOSVE Receipt</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f3f4f6; font-family: Arial, sans-serif; line-height: 1.5;">
+    <center>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 640px;">
+            <!-- Header -->
+            <tr>
+                <td bgcolor="#1b1311" style="padding: 32px; text-align: center;">
+                    <h1 style="color: #ffffff; font-size: 24px; margin: 0; font-weight: 500;">✅ Order Confirmed</h1>
+                    <p style="color: rgba(255,255,255,0.8); margin: 8px 0 0 0; font-size: 14px;">STUDIOSVE Order #{{ order_id }}</p>
+                </td>
+            </tr>
+            
+            <!-- Order Summary -->
+            <tr>
+                <td bgcolor="#ffffff" style="padding: 24px;">
+                    <h2 style="font-size: 18px; color: #111827; margin: 0 0 16px 0;">🛍 Your Items</h2>
+                    <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
+                        {% for item in basket_data %}
+                        <tr>
+                            <td width="60%" style="padding: 12px 8px; border-bottom: 1px solid #e5e7eb;">
+                                <strong>{{ item.product_name }}</strong><br>
+                                <span style="color: #6b7280; font-size: 13px;">
+                                    Type: {{ item.product_type|default('Standard', true) }}<br>
+                                    Tiles: {{ item.selected_tiles|default('All included', true) }}
+                                </span>
+                            </td>
+                            <td width="20%" style="padding: 12px 8px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+                                ×{{ item.product_quantity }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Order Details -->
+            <tr>
+                <td bgcolor="#f9fafb" style="padding: 24px;">
+                    <h2 style="font-size: 18px; color: #111827; margin: 0 0 16px 0;">📋 Order Summary</h2>
+                    <table width="100%" cellpadding="6" cellspacing="0">
+                        <tr>
+                            <td width="50%" style="padding: 6px 0;">Order Number:</td>
+                            <td width="50%" style="padding: 6px 0;"><strong>{{ order_id }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 6px 0;">Order Date:</td>
+                            <td style="padding: 6px 0;">{{ timestamp.strftime('%d %b %Y %H:%M') }} GMT+1</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 6px 0;">Total Items:</td>
+                            <td style="padding: 6px 0;">{{ total_items }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Customer Information -->
+            <tr>
+                <td bgcolor="#ffffff" style="padding: 24px;">
+                    <h2 style="font-size: 18px; color: #111827; margin: 0 0 16px 0;">👤 Your Information</h2>
+                    <table width="100%" cellpadding="6" cellspacing="0">
+                        <tr>
+                            <td width="50%" style="padding: 6px 0;">Name:</td>
+                            <td width="50%" style="padding: 6px 0;">{{ name }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 6px 0;">Email:</td>
+                            <td style="padding: 6px 0;">{{ email }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 6px 0;">Phone:</td>
+                            <td style="padding: 6px 0;">{{ phone }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Comments -->
+            {% if comments %}
+            <tr>
+                <td bgcolor="#ffffff" style="padding: 24px;">
+                    <h2 style="font-size: 18px; color: #111827; margin: 0 0 16px 0;">📝 Your Notes</h2>
+                    <div style="background: #fff; padding: 16px; border: 1px solid #e5e7eb; border-radius: 4px;">
+                        {{ comments }}
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
+
+            <!-- Next Steps -->
+            <tr>
+                <td bgcolor="#f9fafb" style="padding: 24px; text-align: center;">
+                    <h3 style="font-size: 16px; color: #111827; margin: 0 0 16px 0;">What Happens Next?</h3>
+                    <p style="margin: 0; color: #6b7280; font-size: 14px;">
+                        We're preparing your order and will notify you when it's ready.<br>
+                        Expect production updates within 3-5 business days.
+                    </p>
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+                <td bgcolor="#1b1311" style="padding: 24px; text-align: center;">
+                    <p style="color: rgba(255,255,255,0.8); font-size: 12px; margin: 0 0 8px 0;">
+                        STUDIOSVE<br>
+                        Via Crear, 13, 37022 Fumane VR, Italia
+                    </p>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 11px; margin: 8px 0 0 0;">
+                        Need help? Reply to this email or contact us at<br>
+                        <a href="mailto:info@studiosve.com" style="color: rgba(255,255,255,0.8); text-decoration: underline;">info@studiosve.com</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
