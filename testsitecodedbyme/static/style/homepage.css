@@ -133,3 +133,13 @@
 .gap-3 {
   gap: 1rem;
 }
+
+/* Ensure toasts appear above other content */
+.toast-container {
+  z-index: 9999; 
+}
+
+/* Force Bootstrap toast background colors */
+.toast {
+  background-color: var(--bs-bg-opacity, 1) !important; 
+}
