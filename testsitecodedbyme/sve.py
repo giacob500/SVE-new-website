@@ -258,13 +258,6 @@ def product():
         chosen_product_name = request.form["product_name"]
         chosen_product_category = request.form["product_category"]
         if "email" in session:
-
-            # Build logic to get product tags and display them
-            product = Products.query.filter_by(name=chosen_product_name).first()
-            if product:
-                product_tags = [tag.name for tag in product.tags]
-                print(f"Tags for product '{chosen_product_name}':", product_tags)
-            
             return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category, username=session["email"])
         else:
             return render_template("product.html", chosen_product_url=chosen_product_url, chosen_product_name=chosen_product_name, chosen_product_category=chosen_product_category)
