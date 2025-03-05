@@ -12,3 +12,4 @@ def error_handlers(app):
     @app.errorhandler(Exception)
     def handle_all_errors(e):
         return render_template('error.html', error_message='An unexpected error occurred'), 500
+    
