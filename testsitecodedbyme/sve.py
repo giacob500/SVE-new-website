@@ -298,7 +298,14 @@ def basket():
             return redirect(url_for("basket"))
         
         if "basket_data" in session:
-            return render_template("basket.html", basket_data=session["basket_data"], username=session["email"])
+            # Fetch product images for each item in basket
+            basket_data = session["basket_data"]
+            for item in basket_data:
+                product = Products.query.filter_by(name=item['product_name']).first()
+                if product:
+                    item['image_url'] = product.image_url
+            
+            return render_template("basket.html", basket_data=basket_data, username=session["email"])
         return render_template("basket.html")
     
     flash("Please log-in to access this page", "info")

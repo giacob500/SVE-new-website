@@ -37,14 +37,20 @@
                     <tbody>
                         {% for item in basket_data %}
                         <tr class="border-top">
-                            <td class="fw-semibold">{{ item.product_name }}</td>
+                            <td class="fw-semibold">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ url_for('static', filename=item.image_url.replace('static/', '', 1)) }}" 
+                                         class="rounded me-3" alt="{{ item.product_name }}"
+                                         style="width: 48px; height: 48px; object-fit: cover;">
+                                    <span>{{ item.product_name }}</span>
+                                </div>
+                            </td>
                             <td>{{ item.product_type or '—' }}</td>
                             <td class="text-center">
                                 <span class="badge bg-dark rounded-pill">
                                     {{ item.product_counter }} {{ 'tile' if item.product_counter == 1 else 'tiles' }}
                                 </span>
-                                <div class="text-muted small mt-1">{{ item.selected_tiles or 'All tiles selected' }}
-                                </div>
+                                <div class="text-muted small mt-1">{{ item.selected_tiles or 'All tiles selected' }}</div>
                             </td>
                             <td class="text-center">{{ item.product_quantity }}</td>
                             <td class="text-end">
