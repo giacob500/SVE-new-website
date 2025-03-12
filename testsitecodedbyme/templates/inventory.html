@@ -1,6 +1,16 @@
 {% extends "jinja/bases/general_base.html" %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/inventory.css') }}" />
+<style>
+    .select-checkbox {
+        width: 18px;
+        height: 18px;
+    }
+    #deleteSelectedBtn {
+        display: none;
+        margin-left: 10px;
+    }
+</style>
 {% endblock %}
 {% block tab_title %}Inventory{% endblock %}
 {% block header_content %}
@@ -27,6 +37,15 @@
             <path fill-rule="evenodd"
                 d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
         </svg> Insert Product
+    </button>
+
+    <!-- Delete Selected Button -->
+    <button id="deleteSelectedBtn" class="btn btn-outline-danger">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+        </svg>
+        Delete Selected (<span id="selectedCount">0</span>)
     </button>
 
     <!-- Modal -->
@@ -77,6 +96,9 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
+                <th scope="col">
+                    <input type="checkbox" class="select-checkbox" id="selectAll">
+                </th>
                 <!-- Sortable columns -->
                 {% for header in [
                     ('id', 'ID'),
@@ -103,6 +125,12 @@
         <tbody>
             {% for item in values %}
             <tr>
+                <td>
+                    <input type="checkbox" class="select-checkbox product-select" 
+                           data-product-id="{{ item.id }}"
+                           data-product-name="{{ item.name }}"
+                           data-image-url="{{ item.image_url }}">
+                </td>
                 <th scope="row">{{ item.id }}</th>
                 <td>{{ item.name }}</td>
                 <td>{{ item.category }}</td>
@@ -152,4 +180,76 @@
 {% endblock %}
 {% block javascript %}
 <script src="{{ url_for('static', filename='scripts/confirmation_script.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAll = document.getElementById('selectAll');
+    const productCheckboxes = document.querySelectorAll('.product-select');
+    const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
+    const selectedCountSpan = document.getElementById('selectedCount');
+
+    // Handle select all checkbox
+    selectAll.addEventListener('change', function() {
+        productCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        updateDeleteButton();
+    });
+
+    // Handle individual checkboxes
+    productCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateDeleteButton();
+            // Update select all checkbox
+            selectAll.checked = Array.from(productCheckboxes).every(cb => cb.checked);
+        });
+    });
+
+    // Update delete button visibility and selected count
+    function updateDeleteButton() {
+        const selectedCount = document.querySelectorAll('.product-select:checked').length;
+        selectedCountSpan.textContent = selectedCount;
+        deleteSelectedBtn.style.display = selectedCount > 0 ? 'inline-block' : 'none';
+    }
+
+    // Handle delete selected button
+    deleteSelectedBtn.addEventListener('click', function() {
+        const selectedProducts = document.querySelectorAll('.product-select:checked');
+        const productCount = selectedProducts.length;
+        
+        if (productCount === 0) return;
+
+        const confirmMessage = `Are you sure you want to delete ${productCount} selected product${productCount > 1 ? 's' : ''}?`;
+        
+        if (confirm(confirmMessage)) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ url_for("inventory", sort=current_sort, order=current_order) }}';
+
+            // Add selected products to form
+            selectedProducts.forEach(checkbox => {
+                const productId = document.createElement('input');
+                productId.type = 'hidden';
+                productId.name = 'product_ids[]';
+                productId.value = checkbox.dataset.productId;
+                form.appendChild(productId);
+
+                const productName = document.createElement('input');
+                productName.type = 'hidden';
+                productName.name = 'product_names[]';
+                productName.value = checkbox.dataset.productName;
+                form.appendChild(productName);
+
+                const imageUrl = document.createElement('input');
+                imageUrl.type = 'hidden';
+                imageUrl.name = 'product_image_urls[]';
+                imageUrl.value = checkbox.dataset.imageUrl;
+                form.appendChild(imageUrl);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+});
+</script>
 {% endblock %}

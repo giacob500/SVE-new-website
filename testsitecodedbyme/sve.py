@@ -81,19 +81,54 @@ def adminview():
 def inventory():
     if "email" in session and session["email"] == app.config['ADMIN_EMAIL']:
         if request.method == 'POST':
-            product_name = request.form["product_name"]
-            if 'product_id' in request.form:
+            # Handle multiple product deletion
+            if 'product_ids[]' in request.form:
+                product_ids = request.form.getlist('product_ids[]')
+                product_names = request.form.getlist('product_names[]')
+                product_image_urls = request.form.getlist('product_image_urls[]')
+                
+                deleted_count = 0
+                for i in range(len(product_ids)):
+                    product_to_delete = Products.query.filter_by(id=product_ids[i], name=product_names[i]).first()
+                    if product_to_delete:
+                        # Delete the product from db
+                        db.session.delete(product_to_delete)
+                        # Delete the product image from filesystem
+                        try:
+                            os.remove(product_image_urls[i])
+                        except OSError:
+                            # If file doesn't exist, continue with deletion
+                            pass
+                        deleted_count += 1
+                
+                db.session.commit()
+                if deleted_count > 0:
+                    flash(f"{deleted_count} product{'s' if deleted_count > 1 else ''} deleted successfully", "success")
+                else:
+                    flash("No products were deleted", "error")
+                return redirect(url_for("inventory"))
+            
+            # Handle single product deletion
+            elif 'product_id' in request.form:
                 product_id = request.form["product_id"]
+                product_name = request.form["product_name"]
                 product_to_delete = Products.query.filter_by(id=product_id, name=product_name).first()
                 if product_to_delete:
                     # Delete the product from db
                     db.session.delete(product_to_delete)
                     db.session.commit()
                     # Delete the product from filesystem
-                    os.remove(request.form["product_image_url"])
+                    try:
+                        os.remove(request.form["product_image_url"])
+                    except OSError:
+                        # If file doesn't exist, continue
+                        pass
                     flash(f"'{product_name}' deleted successfully", "success")
                 else:
                     flash('Product to delete not found', 'error')
+                return redirect(url_for("inventory"))
+            
+            # Handle product addition
             else:
                 uploaded_file = request.files['file']
                 filename = uploaded_file.filename
@@ -103,6 +138,7 @@ def inventory():
                         flash("You attempted to insert a non compatible file. Please upload a JPEG or PNG file", "info")
                         return redirect(url_for("inventory"))
                     # Check if product is already existing before adding it
+                    product_name = request.form["product_name"]
                     product_category = request.form["product_category"]
                     
                     check = Products.query.filter_by(name=product_name, category=product_category).first()
