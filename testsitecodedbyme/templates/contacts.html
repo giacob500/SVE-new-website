@@ -1,4 +1,8 @@
 {% extends "jinja/bases/general_base.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/contacts.css') }}" />
+{% endblock %}
 {% block tab_title %}Contacts{% endblock %}
 {% block header_content %}
 
@@ -9,36 +13,62 @@
 {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
 {% endblock %}
 {% block content%}
-<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
-    <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-        <div class="my-3 p-3">
-            <h2 class="display-8">Email and web addresses</h2>
-            <p class="lead">E-mail: <a class="lead" href="mailto:info@studiosve.com">info@studiosve.com</a></p>
-            <p class="lead">Main website: <a class="lead" href="https://www.studiosve.com/" target="_blank">www.studiosve.com</a>
-                <p class="lead">Old website: <a class="lead" href="https://www.studiovertueurope.com/" target="_blank">www.studiovertueurope.com</a>
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- Contact Cards -->
+        <div class="col-lg-4">
+            <div class="contact-card p-4">
+                <h2 class="contact-title h4"><i class="bi bi-envelope me-2"></i>Contact Info</h2>
+                <div class="mb-4">
+                    <h3 class="contact-subtitle h5">Email Address</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="bi bi-envelope-at contact-icon"></i>
+                            <a href="mailto:info@studiosve.com" class="contact-link">info@studiosve.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mb-4">
+                    <h3 class="contact-subtitle h5">Other Websites</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="bi bi-globe contact-icon"></i>
+                            <a href="https://www.studiosve.com" target="_blank" class="contact-link">www.studiosve.com</a>
+                        </li>
+                        <li>
+                            <i class="bi bi-globe contact-icon"></i>
+                            <a href="https://www.studiovertueurope.com" target="_blank" class="contact-link">www.studiovertueurope.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-        <div class="my-3 p-3">
-            <h2 class="display-8">Address</h2>
-            <p class="lead">StudioSve<br>
-                SVE S.r.l.<br>
-                Via Crear, 13<br>
-                37022 Fumane (VR), Italy</p>
+
+        <div class="col-lg-4">
+            <div class="contact-card p-4">
+                <h2 class="contact-title h4"><i class="bi bi-geo-alt me-2"></i>Address</h2>
+                <div class="mb-4">
+                    <p class="contact-text">StudioSve</p>
+                    <p class="contact-text">SVE S.r.l.</p>
+                    <p class="contact-text">Via Crear, 13</p>
+                    <p class="contact-text">37022 Fumane (VR), Italy</p>
+                </div>
+                <div class="mb-4">
+                    <h3 class="contact-subtitle h5">Phone</h3>
+                    <p class="contact-text">
+                        <i class="bi bi-telephone contact-icon"></i>
+                        +39 045 6845093
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-        <div class="my-3 p-3">
-            <h2 class="display-8">Telephone & Whatsapp</h2>
-            <p class="lead">+39 045 6845093</p>
+
+        <!-- Map Section -->
+        <div class="col-lg-4">
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2794.0570576584337!2d10.863150075764668!3d45.5491777277655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4781fadc7f18c267%3A0x2941c96eed5df102!2sSTUDIOSVE%20-%20SVE%20S.r.l.%20unipersonale!5e0!3m2!1sit!2suk!4v1705420221814!5m2!1sit!2suk"></iframe>
+            </div>
         </div>
     </div>
 </div>
-<div class="bg-light mr-md-3 pt-3 px-3 md-5 px-md-5 text-center overflow-hidden">
-    <div>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2794.0570576584337!2d10.863150075764668!3d45.5491777277655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4781fadc7f18c267%3A0x2941c96eed5df102!2sSTUDIOSVE%20-%20SVE%20S.r.l.%20unipersonale!5e0!3m2!1sit!2suk!4v1705420221814!5m2!1sit!2suk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-  </div>
-  
-
 {% endblock %}
