@@ -2,73 +2,60 @@
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/product.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/otherstyles.css') }}" />
-<style>
-    /* These blocks of code have been added here because include a Jinja2 variable*/
-    .table-with-contained-bg {
-        background-image: url('{{ chosen_product_url }}');
-        background-size: contain;
-        background-position: center center;
-        background-repeat: no-repeat;
-        width: 300px;
-        cursor: pointer;
-    }
-
-    .table-with-bg {
-        background-image: url('{{ chosen_product_url }}');
-        background-size: cover;
-        background-repeat: no-repeat;
-        width: 300px;
-        cursor: pointer;
-    }
-</style>
 {% endblock %}
 {% block tab_title %}Product{% endblock %}
 {% block header_content %}
-
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/history">History</a>
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/pricing" target="_blank">Pricing</a>
 <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
 {% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
 {% endblock %}
 {% block content %}
-<div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col col-lg-2">
-            <div class="text-center">
-                <a href="/collections"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="black"
-                        class="bi bi-arrow-left-short" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
-                    </svg></a>
-            </div>
-        </div>
-            <div class="col-md-auto text-center">
-                <h1>Product details</h1>
-            </div>
-        <div class="col col-lg-2">
-            <!-- Empty div necessary for page title layout -->
+<div class="container product-container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/collections">Collections</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ chosen_product_name }}</li>
+                </ol>
+            </nav>
         </div>
     </div>
-    <div class="text-center">
-        <form class="form-group" action="/categories" method="post">
-            {% if chosen_product_category == "marble_hearts" or chosen_product_category == "books" or chosen_product_category == "terracotta_3d"%}
-            <img src="{{ chosen_product_url }}" class="img-fluid" width="500" alt="product image">
-            {% else %}
-            {% if chosen_product_category != "slate" %}
-            <label for="product_type">Choose product type:</label>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    {% if chosen_product_category == "terracotta" %}
-                    <select class="form-control" id="product_type" name="product_type" onchange="showOptions()">
-                        <option value="Coasters 10x10 cm">Coasters - 10x10 cm</option>
-                        <option value="Coasters 15x15 cm">Coasters - 15x15 cm</option>
-                        <option value="Magnet">Magnet - 5x5</option>
+
+    <div class="row">
+        <!-- Product Image -->
+        <div class="col-md-6 mb-4">
+            <div class="product-image-container">
+                <img src="{{ chosen_product_url }}" class="img-fluid rounded product-main-image" alt="{{ chosen_product_name }}">
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <h1 class="product-title">{{ chosen_product_name }}</h1>
+            
+            <form class="product-form" action="/categories" method="post">
+                {% if chosen_product_category == "marble_hearts" or chosen_product_category == "books" or chosen_product_category == "terracotta_3d"%}
+                <!-- Simple products without customization -->
+                {% else %}
+                <div class="product-options mb-4">
+                    {% if chosen_product_category != "slate" %}
+                    <div class="form-group mb-3">
+                        <label for="product_type" class="form-label">Choose product type:</label>
+                        {% if chosen_product_category == "terracotta" %}
+                        <select class="form-select" id="product_type" name="product_type" onchange="showOptions()">
+                            <option value="Coasters 10x10 cm">Coasters - 10x10 cm</option>
+                            <option value="Coasters 15x15 cm">Coasters - 15x15 cm</option>
+                            <option value="Magnet">Magnet - 5x5</option>
+                        </select>
                         {% else %}
                         {% if chosen_product_category == "marble" %}
-                        <select class="form-control" id="product_type" name="product_type" onchange="updateProductImage()">
-                            {% else %}
-                            <select class="form-control" id="product_type" name="product_type">
-                            {% endif %}
+                        <select class="form-select" id="product_type" name="product_type" onchange="updateProductImage()">
+                        {% else %}
+                        <select class="form-select" id="product_type" name="product_type">
+                        {% endif %}
                             <option value="Coasters">Coasters - 10x10 cm tumbled marble, cork back</option>
                             <option value="WineStopper">Wine Stopper - 5x5 cm tumbled marble with metal base</option>
                             <option value="Magnet">Magnet - 5x5 cm tumbled marble</option>
@@ -76,79 +63,180 @@
                             <option value="RustHook">Rust Hook - 10x10 cm tumbled marble with metal hook</option>
                             <option value="TripleHook">Triple Hook - Bigger tumbled marble with metal hook</option>
                             <option value="PotSticker">Pot Sticker - 5x5 cm tumbled marble with long metal pin</option>
-                            {% endif %}
+                        {% endif %}
                         </select>
 
                         {% if chosen_product_category == "marble" %}
-                        <img id="product_image" src="static/imgs/product_types/coaster.jpg" alt="Product Image" class="img-fluid mt-3" style="display: block;">
+                        <div class="product-type-preview mt-3">
+                            <img id="product_image" src="static/imgs/product_types/coaster.jpg" alt="Product Image" class="img-fluid rounded shadow-sm" style="max-height: 150px;">
+                        </div>
                         {% endif %}
 
                         {% if chosen_product_category == "terracotta" %}
                         <div class="form-group mt-3" id="additional_options" style="display:block;">
-                            <label for="additional_feature">Backing style:</label>
-                            <select class="form-control" id="additional_feature" name="additional_feature">
+                            <label for="additional_feature" class="form-label">Backing style:</label>
+                            <select class="form-select" id="additional_feature" name="additional_feature">
                                 <option value="hole backing">Hole</option>
                                 <option value="cork backing">Backing in cork</option>
                                 <option value="wood backing">Backing in wood</option>
                             </select>
                         </div>
                         {% endif %}
-                </div>
-            </div>
-            {% endif %}
-            {% if chosen_product_category == "marble" %}
-            <label class="pt-5">Now choose which picture you want on it:</label>
-            {% endif %}
-            <br>
-            <div class="d-flex justify-content-center mt-2">
-                {% if chosen_product_category == "slate" %}
-                <table class="table-with-contained-bg">
-                    {% else %}
-                    <table class="table-with-bg">
-                        {% endif %}
-                        <tr>
-                            <td>Tile A</td>
-                            <td>Tile B</td>
-                        </tr>
-                        <tr>
-                            <td>Tile D</td>
-                            <td>Tile C</td>
-                        </tr>
-                    </table>
-            </div>
+                    </div>
+                    {% endif %}
 
-            <p>In total you selected <span id="product_counter">0</span> tiles, including: <span
-                    id="selectedList"></span>
-            </p>
-            <input type="hidden" name="product_counter">
-            <input type="hidden" name="selected_tiles">
-            <div class="alert alert-warning d-inline-block" role="alert">Note: if you do not select any tile but still
-                add
-                the product to your basket, all of the tiles will be included.</div>
-            {% endif %}
-            <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
-            <br>
-            <div class="row justify-content-md-center">
-                <div class="col col-lg-2">
-                    <label for="product_quantity">Quantity:</label>
+                    {% if chosen_product_category == "marble" %}
+                    <div class="mb-3">
+                        <label class="form-label">Choose which picture you want on it:</label>
+                    </div>
+                    {% endif %}
+
+                    <!-- Redesigned Tiles Grid - Mobile Friendly -->
+                    <div class="mb-4">
+                        <label class="form-label">Select Tiles:</label>
+                        <div class="tiles-grid">
+                            <div class="tile-item" data-tile="Tile A">
+                                <div class="tile-content" style="background-image: url('{{ chosen_product_url }}'); background-position: top left;">
+                                    <span>A</span>
+                                </div>
+                            </div>
+                            <div class="tile-item" data-tile="Tile B">
+                                <div class="tile-content" style="background-image: url('{{ chosen_product_url }}'); background-position: top right;">
+                                    <span>B</span>
+                                </div>
+                            </div>
+                            <div class="tile-item" data-tile="Tile D">
+                                <div class="tile-content" style="background-image: url('{{ chosen_product_url }}'); background-position: bottom left;">
+                                    <span>D</span>
+                                </div>
+                            </div>
+                            <div class="tile-item" data-tile="Tile C">
+                                <div class="tile-content" style="background-image: url('{{ chosen_product_url }}'); background-position: bottom right;">
+                                    <span>C</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="selections-summary mb-4">
+                        <p class="selected-count mb-2">Selected tiles: <span id="product_counter" class="badge bg-primary">0</span></p>
+                        <p class="mb-1">Selections:</p>
+                        <ul id="selectedList" class="selected-tiles-list"></ul>
+                        <div class="alert alert-warning mt-2" role="alert">
+                            <small>Note: If you don't select any tiles, all tiles will be included by default.</small>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="col col-lg-2 product_quantity">
-                    <input type="number" id="product_quantity" name="product_quantity" min="1" value="1" class="form-control">
-                </div>
-            </div>
-            <div class="d-flex justify-content-center mt-3">
-                <input class="btn btn-dark" type="submit" value="Add to basket">
-            </div>
-        </form></div></div>
-        <form action="/collections" method="post">
-            <div class="text-center mt-2">
+                {% endif %}
+
+                <input type="hidden" name="product_counter">
+                <input type="hidden" name="selected_tiles">
                 <input type="hidden" name="product_name" value="{{ chosen_product_name }}">
-                <input class="btn btn-outline-dark" type="submit" value="Back to product selection">
-            </div>
-        </form>
-        {% endblock %}
-        {% block javascript %}
-        <script src="{{ url_for('static', filename='scripts/conditional_menu.js') }}"></script>
-        <script src="{{ url_for('static', filename='scripts/tilesgrid_script.js') }}"></script>
-        {% endblock %}
+
+                <div class="quantity-add-section">
+                    <div class="row g-3 align-items-center mb-3">
+                        <div class="col-auto">
+                            <label for="product_quantity" class="col-form-label">Quantity:</label>
+                        </div>
+                        <div class="col-auto">
+                            <div class="quantity-control">
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="decrease-qty">-</button>
+                                <input id="product_quantity" name="product_quantity" min="1" value="1" class="form-control mx-2" style="width: 60px;">
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="increase-qty">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Add to Basket</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='/collections'">
+                            Continue Shopping
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="{{ url_for('static', filename='scripts/conditional_menu.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Tile selection functionality
+    const tileItems = document.querySelectorAll('.tile-item');
+    const counterElement = document.getElementById('product_counter');
+    const selectedList = document.getElementById('selectedList');
+    const hiddenInput = document.querySelector('input[name="product_counter"]');
+    const hiddenInputTiles = document.querySelector('input[name="selected_tiles"]');
+    let counter = 0;
+
+    tileItems.forEach(tile => {
+        tile.addEventListener('click', function() {
+            const tileName = this.getAttribute('data-tile');
+            
+            if (this.classList.contains('selected')) {
+                // Deselect tile
+                this.classList.remove('selected');
+                counter--;
+                
+                // Remove from list
+                const listItems = selectedList.querySelectorAll('li');
+                listItems.forEach(item => {
+                    if (item.textContent === tileName) {
+                        selectedList.removeChild(item);
+                    }
+                });
+            } else {
+                // Select tile
+                this.classList.add('selected');
+                counter++;
+                
+                // Add to list
+                const listItem = document.createElement('li');
+                listItem.textContent = tileName;
+                selectedList.appendChild(listItem);
+            }
+            
+            // Update counter display
+            counterElement.textContent = counter;
+            
+            // Update hidden inputs - if counter is 0, set product_counter to 4 (all tiles)
+            hiddenInput.value = counter === 0 ? 4 : counter;
+            hiddenInputTiles.value = getSelectedTiles();
+        });
+    });
+
+    // Initialize the hidden input on page load to default value (4 for all tiles)
+    hiddenInput.value = counter === 0 ? 4 : counter;
+
+    function getSelectedTiles() {
+        const selectedTiles = [];
+        const listItems = selectedList.querySelectorAll('li');
+        listItems.forEach(item => {
+            selectedTiles.push(item.textContent);
+        });
+        return selectedTiles.join(', ');
+    }
+
+    // Quantity control buttons
+    const decreaseBtn = document.getElementById('decrease-qty');
+    const increaseBtn = document.getElementById('increase-qty');
+    const quantityInput = document.getElementById('product_quantity');
+
+    if (decreaseBtn && increaseBtn && quantityInput) {
+        decreaseBtn.addEventListener('click', () => {
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+
+        increaseBtn.addEventListener('click', () => {
+            const currentValue = parseInt(quantityInput.value);
+            quantityInput.value = currentValue + 1;
+        });
+    }
+});
+</script>
+{% endblock %}

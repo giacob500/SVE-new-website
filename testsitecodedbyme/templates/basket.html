@@ -30,7 +30,8 @@
                             <th scope="col">Product</th>
                             <th scope="col">Type</th>
                             <th scope="col" class="text-center">Tiles</th>
-                            <th scope="col" class="text-center">Qty</th>
+                            <th scope="col" class="text-center">Number of tiles per item</th>
+                            <th scope="col" class="text-center">Quantity of items</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -47,10 +48,10 @@
                             </td>
                             <td>{{ item.product_type or '—' }}</td>
                             <td class="text-center">
-                                <span class="badge bg-dark rounded-pill">
-                                    {{ item.product_counter }} {{ 'tile' if item.product_counter == 1 else 'tiles' }}
-                                </span>
                                 <div class="text-muted small mt-1">{{ item.selected_tiles or 'All tiles selected' }}</div>
+                            </td>
+                            <td class="text-center">
+                                    {{ item.product_counter }}
                             </td>
                             <td class="text-center">{{ item.product_quantity }}</td>
                             <td class="text-end">
