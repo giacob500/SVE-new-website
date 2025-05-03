@@ -198,17 +198,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 selectedList.appendChild(listItem);
             }
             
-            // Update counter display
+            // Update counter display and hidden inputs
             counterElement.textContent = counter;
-            
-            // Update hidden inputs - if counter is 0, set product_counter to 4 (all tiles)
-            hiddenInput.value = counter === 0 ? 4 : counter;
+            hiddenInput.value = counter;
             hiddenInputTiles.value = getSelectedTiles();
         });
     });
-
-    // Initialize the hidden input on page load to default value (4 for all tiles)
-    hiddenInput.value = counter === 0 ? 4 : counter;
 
     function getSelectedTiles() {
         const selectedTiles = [];

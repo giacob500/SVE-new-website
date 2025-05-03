@@ -8,6 +8,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var hiddenInput = document.querySelector('input[name="product_counter"]');
     var hiddenInputTiles = document.querySelector('input[name="selected_tiles"]');
 
+    // Initialize with the default value of 4 (all tiles) when the page loads
+    hiddenInput.value = 4;
+
     for (var i = 0; i < cells.length; i++) {
         cells[i].addEventListener('click', function() {
             if (!this.classList.contains('selected')) {
@@ -37,7 +40,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 
             }
-            hiddenInput.value = counter;
+            
+            // If no tiles are selected (counter is 0), set product_counter to 4
+            // as per the requirement "If you don't select any tiles, all tiles will be included by default"
+            if (counter === 0) {
+                hiddenInput.value = 4;
+            } else {
+                hiddenInput.value = counter;
+            }
+            
             hiddenInputTiles.value = getSelectedTiles();
         });
     }
