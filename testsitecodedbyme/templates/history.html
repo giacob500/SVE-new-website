@@ -7,76 +7,84 @@
 {% block header_content %}
 <ul class="navbar-nav">
   <li class="nav-item">
-      <a class="nav-link active" href="/history">History</a>
+    <a class="nav-link" href="/categories">Catalogue</a>
   </li>
   <li class="nav-item">
-      <a class="nav-link" href="/pricing" target="_blank">Pricing</a>
+    <a class="nav-link active" href="/history">History</a>
   </li>
-  {% if username %}
+  <li class="nav-item">
+    <a class="nav-link" href="/pricing" target="_blank">Pricing</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/basket">Basket</a>
+  </li>
+</ul>
+{% if username %}
+<ul class="navbar-nav ms-md-auto">
   <li class="nav-item">
     <a class="nav-link py-2 text-decoration-none text-danger" href="/logout">Logout</a>
   </li>
-  {% endif %}
 </ul>
+{% endif %}
 
 {% endblock %}
 {% block content%}
 
 <!-- ======= Story Intro Section ======= -->
 <section id="story-intro" class="story-intro">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 order-1 order-lg-2">
-          <img src="../static/imgs/paragraph/valpo2.jpg" class="img-fluid" alt="Valpolicella">
-        </div>
-        <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
-          <h3>The background</h3>
-          <p class="fst-italic">
-            The origin of the company in Valpolicella.
-          </p>
-          <p>
-            During the Roman period, Verona and Valpolicella were already known for the quarrying and
-                            processing of their marbles. They were used both for defensive and decorative purposes: the
-                            streets, the churches, the buildings, and the monuments of Verona are made of this noble
-                            material, and their astonishing beauty still amazes visitors.
-                            <br><br>
-                            Nowadays, Verona hosts one of the most important districts for marble processing, relying on
-                            a network of producers and craftsmen of the highest level and competence. STUDIOSVE is part
-                            of this story.
-          </p>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 order-1 order-lg-2">
+        <img src="../static/imgs/paragraph/valpo2.jpg" class="img-fluid" alt="Valpolicella">
       </div>
-
-    </div>
-  </section><!-- End Story Intro Section -->
-  <!-- ======= Featured Members Section ======= -->
-  <section id="featured-members" class="featured-members">
-    <div class="container">
-
-      <div class="row content">
-        <div class="col-lg-6 d-flex align-items-center justify-content-center">
-          <img src="../static/imgs/paragraph/leo_potrait_resized.png" class="img-fluid" alt="">
-        </div>
-        <div class="col-lg-6 pt-3 pt-lg-0">
-          <h3>Who started it all</h3>
-          <p class="fst-italic">
-            Introduction of the company's C.E.O.
-          </p>
-          <p>
-            It all began when Leo, fascinated by the frescoes he could see in his hometown and a
-                            descendant of an ancient family of artists (discover more at <a
-                                href="http://www.lorenzi.net/" target="_blank">www.lorenzi.net</a>), developed an
-                            innovative technique to reproduce those paintings on marble. This was the starting point of
-                            a new era in the family business.
-                            <br><br>
-                            Now, STUDIOSVE offers a wide range of gift articles and decorative objects. We have
-                            "quarried" more than 2000 different images. Other Italian traditional materials like
-                            terracotta and slate were introduced. We customize our products on demand. The only limit is
-                            your imagination.
-          </p>
-        </div>
+      <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+        <h3>The background</h3>
+        <p class="fst-italic">
+          The origin of the company in Valpolicella.
+        </p>
+        <p>
+          During the Roman period, Verona and Valpolicella were already known for the quarrying and
+          processing of their marbles. They were used both for defensive and decorative purposes: the
+          streets, the churches, the buildings, and the monuments of Verona are made of this noble
+          material, and their astonishing beauty still amazes visitors.
+          <br><br>
+          Nowadays, Verona hosts one of the most important districts for marble processing, relying on
+          a network of producers and craftsmen of the highest level and competence. STUDIOSVE is part
+          of this story.
+        </p>
       </div>
-
     </div>
-  </section><!-- End Featured Members Section -->
+
+  </div>
+</section><!-- End Story Intro Section -->
+<!-- ======= Featured Members Section ======= -->
+<section id="featured-members" class="featured-members">
+  <div class="container">
+
+    <div class="row content">
+      <div class="col-lg-6 d-flex align-items-center justify-content-center">
+        <img src="../static/imgs/paragraph/leo_potrait_resized.png" class="img-fluid" alt="">
+      </div>
+      <div class="col-lg-6 pt-3 pt-lg-0">
+        <h3>Who started it all</h3>
+        <p class="fst-italic">
+          Introduction of the company's C.E.O.
+        </p>
+        <p>
+          It all began when Leo, fascinated by the frescoes he could see in his hometown and a
+          descendant of an ancient family of artists (discover more at <a href="http://www.lorenzi.net/"
+            target="_blank">www.lorenzi.net</a>), developed an
+          innovative technique to reproduce those paintings on marble. This was the starting point of
+          a new era in the family business.
+          <br><br>
+          Now, STUDIOSVE offers a wide range of gift articles and decorative objects. We have
+          "quarried" more than 2000 different images. Other Italian traditional materials like
+          terracotta and slate were introduced. We customize our products on demand. The only limit is
+          your imagination.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section><!-- End Featured Members Section -->
 {% endblock %}
