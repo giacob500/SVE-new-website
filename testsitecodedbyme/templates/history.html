@@ -5,11 +5,20 @@
 {% endblock %}
 {% block tab_title %}History{% endblock %}
 {% block header_content %}
+<ul class="navbar-nav">
+  <li class="nav-item">
+      <a class="nav-link active" href="/history">History</a>
+  </li>
+  <li class="nav-item">
+      <a class="nav-link" href="/pricing" target="_blank">Pricing</a>
+  </li>
+  {% if username %}
+  <li class="nav-item">
+    <a class="nav-link py-2 text-decoration-none text-danger" href="/logout">Logout</a>
+  </li>
+  {% endif %}
+</ul>
 
-<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/pricing"
-    target="_blank">Pricing</a>
-<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/basket">Basket</a>
-{% if username %}<a class="py-2 d-none d-md-inline-block text-decoration-none" href="/logout">Logout</a>{% endif %}
 {% endblock %}
 {% block content%}
 
